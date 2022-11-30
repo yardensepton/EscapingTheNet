@@ -12,8 +12,4 @@ public class Finals {
     public final int DELAY = 1000;
     public final int THOUSAND = 1000;
     public final int SIXTY = 60;
-    public enum Direction {
-        LEFT, RIGHT, DOWN
-    };
-
 }

@@ -19,10 +19,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
-    private enum Direction {
-        LEFT, RIGHT, DOWN
-    }
-
     private ExtendedFloatingActionButton main_BTN_right;
     private ExtendedFloatingActionButton main_BTN_left;
     private ShapeableImageView[] game_IMG_hearts;
@@ -164,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void moveNet() {
-        ArrayList<PlaceInMatrix> fallenNets = new ArrayList<PlaceInMatrix>();
+        ArrayList<PlaceInMatrix> fallenNets = new ArrayList<>();
         for (PlaceInMatrix net : seenNets) {
             boolean shouldDeleteNet = moveObjectDownTillEnd(net);
             if (shouldDeleteNet) {
@@ -187,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
 //    Returns true if the net has reached the end of screen.
     private boolean moveObjectDownTillEnd(PlaceInMatrix net) {
         setVisiblePlaceInMatrix(false, net.setPlace(net.getRow(), net.getCol()));
-
         if (finals.LAST_ROW_INDEX != net.getRow() + 1) {
             setVisiblePlaceInMatrix(true, net.setPlace(net.getRow() + 1, net.getCol()));
         } else if (net.getCol() != seenButterfly.getCol()){

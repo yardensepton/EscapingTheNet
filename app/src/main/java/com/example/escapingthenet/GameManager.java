@@ -27,13 +27,6 @@ public class GameManager {
 
     }
 
-
-//    public void initVisibleButterfly() {
-//        activeButterfly = new PlaceInMatrix();
-//        activeButterfly.setPlace(finals.LAST_ROW_INDEX, finals.FIRST_INDEX);
-//        setActiveButterflyObject(activeButterfly);
-//    }
-
     public ArrayList<Butterfly> getButterflies() {
         return butterflies;
     }
@@ -92,32 +85,6 @@ public class GameManager {
         return null;
     }
 
-
-//    public void checkIfButterflyIsCaught(ArrayList<PlaceInMatrix> placesOfButterfly, ArrayList<PlaceInMatrix> placesOfNets) {
-//        Log.i("size of visible places - butterfly", "" + placesOfButterfly.size());
-//        Log.i("size of visible places - net", "" + placesOfNets.size());
-//        for (PlaceInMatrix butterflyPlace : placesOfButterfly) {
-//            for (PlaceInMatrix netPlace : placesOfNets) {
-//                setCaught(netPlace, butterflyPlace);
-//                if (lastMovedButterfly.isCaught()) {
-//                    deaths++;
-//                    Log.i("deaths", "" + deaths);
-//
-//                }
-//            }
-//        }
-//    }
-
-//    public void setCaught(PlaceInMatrix netPlace, PlaceInMatrix butterflyPlace) {
-//        if (netFalls(netPlace, butterflyPlace)) {
-//            activeButterflyObject.setCaught(true);
-//        } else {
-//            activeButterflyObject.setCaught(false);
-//
-//        }
-//    }
-
-
     public boolean didNetHit(PlaceInMatrix netPlace, PlaceInMatrix butterflyPlace) {
         boolean bool = netPlace.getRow() + 1 == butterflyPlace.getRow() && netPlace.getCol() == butterflyPlace.getCol();
         Log.i("did net hit?", "" + bool);
@@ -141,29 +108,6 @@ public class GameManager {
 
 
     }
-//    public void netOnButterfly(PlaceInMatrix netPlace, PlaceInMatrix butterflyPlace) {
-//        if (netPlace.getRow() + 1 == butterflyPlace.getRow() && netPlace.getCol() != butterflyPlace.getCol()) {
-//            objectMatrix[butterflyPlace.getRow()][butterflyPlace.getCol()].setImageRes(finals.NET_PIC);
-//        }
-//    }
-
-    public void setDeaths(HashMap<PlaceInMatrix, Boolean> nextTo) {
-        for (PlaceInMatrix place : nextTo.keySet()) {
-            if (Boolean.TRUE.equals(nextTo.get(place))) {
-                deaths++;
-                Log.i("deaths", "" + deaths);
-            }
-
-        }
-    }
-
-
-
-
-    public boolean isLose() {
-        return deaths == lives;
-    }
-
 
     private void updateObjectMatrix(GameObjectClass gameObjectClass, int row, int col) {
         gameObjectClass.setLocationRow(row);
