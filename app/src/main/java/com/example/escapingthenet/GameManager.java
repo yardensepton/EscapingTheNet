@@ -104,9 +104,12 @@ public class GameManager {
         return bool;
     }
 
-    private void updateObjectMatrix(GameObjectClass gameObjectClass, int row, int col) {
-        gameObjectClass.setLocationRow(row);
-        gameObjectClass.setLocationCol(col);
-        objectMatrix[row][col] = gameObjectClass;
+    private void updateObjectMatrix(GameObjectClass gameObject, int row, int col) {
+//        gameObject.setLocationRow(row);
+//        gameObject.setLocationCol(col);
+//        objectMatrix[row][col] = gameObject;
+
+        gameObject.setPlace(row,col);
+        objectMatrix[row][col] = gameObject;
     }
 }

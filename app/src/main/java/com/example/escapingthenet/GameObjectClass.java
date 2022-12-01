@@ -1,28 +1,23 @@
 package com.example.escapingthenet;
 
 public abstract class GameObjectClass {
-    private int locationRow;
-    private int locationCol;
+    private PlaceInMatrix place;
     private int imageRes;
 
     public GameObjectClass() {
     }
 
-    public int getLocationRow() {
-        return locationRow;
+
+    public PlaceInMatrix getPlace() {
+        return place;
     }
 
-    public void setLocationRow(int locationRow) {
-        this.locationRow = locationRow;
+    public void setPlace(int row, int col) {
+        place = new PlaceInMatrix();
+        place.setRow(row);
+        place.setCol(col);
     }
 
-    public int getLocationCol() {
-        return locationCol;
-    }
-
-    public void setLocationCol(int locationCol) {
-        this.locationCol = locationCol;
-    }
 
     public int getImageRes() {
         return imageRes;
