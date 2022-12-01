@@ -11,7 +11,6 @@ public class GameManager {
     private int deaths = 0;
     private GameObjectClass[][] objectMatrix;
     private int lives;
-    //    TODO: replace the butterfly with GameObject, maybe change the naming - instead of butterflies to escapers
     private ArrayList<Butterfly> butterflies;
     private ArrayList<Net> nets;
 
@@ -49,11 +48,13 @@ public class GameManager {
         for (int i = 0; i < getButterflies().size(); i++) {
             Butterfly butterfly = butterflies.get(i);
             updateObjectMatrix(butterfly, finals.LAST_ROW_INDEX, i);
+            Log.i("butterfly place", "[" + finals.LAST_ROW_INDEX + "," +i + "]");
+
         }
     }
 
     public void setNets() {
-        //set the nets in their places
+        //set the nets in their places - all but last row.
         for (int i = 0; i < finals.LAST_ROW_INDEX; i++) {//4
             for (int j = 0; j < finals.COLS; j++) {
                 Net net = nets.get(j);
@@ -72,43 +73,22 @@ public class GameManager {
     }
 
     public PlaceInMatrix checkIfButterflyIsCaught(PlaceInMatrix placeOfButterfly, ArrayList<PlaceInMatrix> placesOfNets) {
+       //for each seen net - check if it caught the butterfly, if so - return that place.
         for (PlaceInMatrix netPlace : placesOfNets) {
-            if (didNetHit(netPlace, placeOfButterfly) || netFromLeft(netPlace, placeOfButterfly) || netFromRight(netPlace, placeOfButterfly)) {
+            if (netHit(netPlace, placeOfButterfly) ) {
                 deaths++;
                 return placeOfButterfly;
             }
-
         }
         return null;
     }
 
-    public boolean didNetHit(PlaceInMatrix netPlace, PlaceInMatrix butterflyPlace) {
-        boolean bool = netPlace.getRow() + 1 == butterflyPlace.getRow() && netPlace.getCol() == butterflyPlace.getCol();
-        Log.i("did net hit?", "" + bool);
-
-        return bool;
+    public boolean netHit(PlaceInMatrix netPlace, PlaceInMatrix butterflyPlace) {
+        return netPlace.getRow() + 1 == butterflyPlace.getRow() && netPlace.getCol() == butterflyPlace.getCol();
     }
 
-    public boolean netFromLeft(PlaceInMatrix netPlace, PlaceInMatrix butterflyPlace) {
-        boolean bool = netPlace.getRow() == butterflyPlace.getRow() && netPlace.getCol() == butterflyPlace.getCol();
-
-        Log.i("net left", "" + bool);
-        return bool;
-
-
-    }
-
-    public boolean netFromRight(PlaceInMatrix netPlace, PlaceInMatrix butterflyPlace) {
-        boolean bool = netPlace.getRow() == butterflyPlace.getRow() && netPlace.getCol() + 1 == butterflyPlace.getCol();
-        Log.i("net left", "" + bool);
-        return bool;
-    }
 
     private void updateObjectMatrix(GameObjectClass gameObject, int row, int col) {
-//        gameObject.setLocationRow(row);
-//        gameObject.setLocationCol(col);
-//        objectMatrix[row][col] = gameObject;
-
         gameObject.setPlace(row,col);
         objectMatrix[row][col] = gameObject;
     }

@@ -2,7 +2,6 @@ package com.example.escapingthenet;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
         stopTimer();
     }
 
-    private void gameTime() {
-        // count the time
+    private void gameLoop() {
         long millis = System.currentTimeMillis() - startTime;
         int seconds = (int) (millis / finals.DELAY);
         seconds = seconds % finals.SIXTY;
@@ -79,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(() -> gameTime());
+                runOnUiThread(() -> gameLoop());
             }
         }, finals.DELAY, finals.DELAY);
         startTime = System.currentTimeMillis();
@@ -88,12 +86,30 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("CheckResult")
     private void findViews() {
         game_IMG_hearts = new ShapeableImageView[]{findViewById(R.id.game_IMG_heart3), findViewById(R.id.game_IMG_heart2), findViewById(R.id.game_IMG_heart1)};
-        initMatrix();
         gameManager = new GameManager(game_IMG_hearts.length);
         finals = new Finals();
+        main_BTN_right = findViewById(R.id.main_BTN_right);
+        main_BTN_left = findViewById(R.id.main_BTN_left);
+        initMatrix();
         glides();
         initVisibleButterfly();
         randomizeVisible();
+    }
+    private void glides() {
+        loadAllImages();
+        AppCompatImageView main_IMG_background = findViewById(R.id.main_IMG_background);
+        Glide.with(MainActivity.this).load(R.drawable.img_background).into(main_IMG_background);
+
+    }
+
+
+    private void loadAllImages() {
+        gameManager.setObjectMatrix();
+        for (int i = 0; i < picturesMatrix.length; i++) {
+            for (int j = 0; j < picturesMatrix[i].length; j++) {
+                Glide.with(MainActivity.this).load(gameManager.getObjectMatrix()[i][j].getImageRes()).into(picturesMatrix[i][j]);
+            }
+        }
     }
 
     public void initVisibleButterfly() {
@@ -124,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
         if (seenButterfly != newPlace) {
             setVisiblePlaceInMatrix(false, seenButterfly);
         }
-
         setVisiblePlaceInMatrix(true, newPlace);
         seenButterfly.setPlace(newPlace.getRow(), newPlace.getCol());
         updateVisibleButterfly();
@@ -157,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
     public void moveNet() {
         ArrayList<PlaceInMatrix> fallenNets = new ArrayList<>();
         for (PlaceInMatrix net : seenNets) {
+            //for every seen net - check if it reached the butterfly row - meaning her job is over so remove it.
             boolean shouldDeleteNet = moveObjectDownTillEnd(net);
             if (shouldDeleteNet) {
                 fallenNets.add(net);
@@ -175,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
             picturesMatrix[newPlace.getRow()][newPlace.getCol()].setVisibility(View.INVISIBLE);
     }
 
-    //    Returns true if the net has reached the row before the butterflies row.
+    //Returns true if the net has reached the row of the butterflies.
     private boolean moveObjectDownTillEnd(PlaceInMatrix net) {
         setVisiblePlaceInMatrix(false, net.setPlace(net.getRow(), net.getCol()));
         if (finals.LAST_ROW_INDEX != net.getRow() + 1) {
@@ -190,13 +206,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void finalNetPlaceHandler(PlaceInMatrix net) {
+        //if the net reaches the last row -
+        // the butterfly picture changes to net for a second
         if (net.getCol() != seenButterfly.getCol()) {
             picturesMatrix[net.getRow() + 1][net.getCol()].setImageResource(finals.NET_PIC);
             setVisiblePlaceInMatrix(true, new PlaceInMatrix().setPlace(net.getRow() + 1, net.getCol()));
         }
     }
 
-    private void updateVisibleButterfly() {
+    private void updateVisibleButterfly() {//every second the visible butterfly is updated
         for (int i = 0; i < finals.COLS; i++) {
             if (i != seenButterfly.getCol()) {
                 setVisiblePlaceInMatrix(false, new PlaceInMatrix().setPlace(finals.LAST_ROW_INDEX, i));
@@ -204,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void caughtHandler() {
+    private void caughtHandler() {//when the butterfly is caught its picture changes +vibrate and toast
         PlaceInMatrix placeWhereButterflyCaught = gameManager.checkIfButterflyIsCaught(seenButterfly, seenNets);
         if (placeWhereButterflyCaught != null) {//if the butterfly is caught
             picturesMatrix[placeWhereButterflyCaught.getRow()][placeWhereButterflyCaught.getCol()].setImageResource(R.drawable.img_butterfly_catched);
@@ -214,33 +232,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void randomizeVisible() {
+    private void randomizeVisible() { //random a net and add to the visible nets array
         Random rand = new Random();
         int randCols = rand.nextInt(finals.COLS);
         PlaceInMatrix place = new PlaceInMatrix();
         place.setPlace(finals.FIRST_INDEX, randCols);
         setVisiblePlaceInMatrix(true, place);
         seenNets.add(place);
-        Log.i("nets size", "" + seenNets.size());
-    }
-
-    private void glides() {
-        loadAllImages();
-        AppCompatImageView main_IMG_background = findViewById(R.id.main_IMG_background);
-        Glide.with(MainActivity.this).load(R.drawable.img_background).into(main_IMG_background);
-        main_BTN_right = findViewById(R.id.main_BTN_right);
-        main_BTN_left = findViewById(R.id.main_BTN_left);
     }
 
 
-    private void loadAllImages() {
-        gameManager.setObjectMatrix();
-        for (int i = 0; i < picturesMatrix.length; i++) {
-            for (int j = 0; j < picturesMatrix[i].length; j++) {
-                Glide.with(MainActivity.this).load(gameManager.getObjectMatrix()[i][j].getImageRes()).into(picturesMatrix[i][j]);
-            }
-        }
-    }
 
 
     private void refreshUI() {

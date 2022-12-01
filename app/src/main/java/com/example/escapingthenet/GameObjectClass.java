@@ -8,10 +8,6 @@ public abstract class GameObjectClass {
     }
 
 
-    public PlaceInMatrix getPlace() {
-        return place;
-    }
-
     public void setPlace(int row, int col) {
         place = new PlaceInMatrix();
         place.setRow(row);

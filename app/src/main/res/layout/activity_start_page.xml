@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text=" "
+        android:gravity="center"
         android:textSize="40sp"
         android:textAlignment="center">
 
@@ -29,19 +29,20 @@
     </com.google.android.material.button.MaterialButton>
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/start_IMG_grass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:srcCompat="@drawable/png_grass"
-        android:adjustViewBounds="true">
+        android:adjustViewBounds="true"
+        android:visibility="visible">
     </androidx.appcompat.widget.AppCompatImageView>
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/start_IMG_icon"
         android:layout_width="292dp"
         android:layout_height="143dp"
         android:adjustViewBounds="true"
-        android:layout_above="@id/start_TXT_hello"
-        app:srcCompat="@drawable/png_catch">
+        android:layout_above="@id/start_TXT_hello">
 
     </androidx.appcompat.widget.AppCompatImageView>
 </RelativeLayout>
