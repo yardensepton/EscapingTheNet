@@ -10,6 +10,7 @@ public class Finals {
     public final int BUTTERFLY_PIC = R.drawable.ic_butterfly;
     public final int NET_PIC = R.drawable.img_butterflynet;
     public final int DELAY = 1000;
-    public final int THOUSAND = 1000;
+    public final int VIBRATE_MILLISECONDS = 500;
     public final int SIXTY = 60;
+    public final String CAUGHT_MESSAGE = "Caught";
 }

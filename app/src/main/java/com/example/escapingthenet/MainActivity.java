@@ -55,23 +55,19 @@ public class MainActivity extends AppCompatActivity {
     private void gameTime() {
         // count the time
         long millis = System.currentTimeMillis() - startTime;
-        int seconds = (int) (millis / finals.THOUSAND);
+        int seconds = (int) (millis / finals.DELAY);
         seconds = seconds % finals.SIXTY;
-
-
-
 
         updateVisibleButterfly();
         loadAllImages();
 
-            if (seconds % 2 == 0) {
-                loadAllImages();
-                randomizeVisible();
-            }
-            caughtHandler();
-            moveNet();
+        if (seconds % 2 == 0) {
+            loadAllImages();
+            randomizeVisible();
+        }
 
-
+        caughtHandler();
+        moveNet();
     }
 
     private void stopTimer() {
@@ -115,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
                 , {findViewById(R.id.main_IMG_pic9), findViewById(R.id.main_IMG_pic10), findViewById(R.id.main_IMG_pic11), findViewById(R.id.main_IMG_pic12)},
                 {findViewById(R.id.main_IMG_pic13), findViewById(R.id.main_IMG_pic14), findViewById(R.id.main_IMG_pic15), findViewById(R.id.main_IMG_pic16)},
                 {findViewById(R.id.main_IMG_pic17), findViewById(R.id.main_IMG_pic18), findViewById(R.id.main_IMG_pic19), findViewById(R.id.main_IMG_pic20)}
-
         };
     }
 
@@ -180,22 +175,26 @@ public class MainActivity extends AppCompatActivity {
             picturesMatrix[newPlace.getRow()][newPlace.getCol()].setVisibility(View.INVISIBLE);
     }
 
-//    Returns true if the net has reached the end of screen.
+    //    Returns true if the net has reached the row before the butterflies row.
     private boolean moveObjectDownTillEnd(PlaceInMatrix net) {
         setVisiblePlaceInMatrix(false, net.setPlace(net.getRow(), net.getCol()));
         if (finals.LAST_ROW_INDEX != net.getRow() + 1) {
             setVisiblePlaceInMatrix(true, net.setPlace(net.getRow() + 1, net.getCol()));
-        } else if (net.getCol() != seenButterfly.getCol()){
-            picturesMatrix[net.getRow() + 1][net.getCol()].setImageResource(finals.NET_PIC);
-            setVisiblePlaceInMatrix(true, new PlaceInMatrix().setPlace(net.getRow() + 1, net.getCol()));
-            return true;
         } else {
+            finalNetPlaceHandler(net);
             return true;
         }
 
         return false;
     }
 
+
+    private void finalNetPlaceHandler(PlaceInMatrix net) {
+        if (net.getCol() != seenButterfly.getCol()) {
+            picturesMatrix[net.getRow() + 1][net.getCol()].setImageResource(finals.NET_PIC);
+            setVisiblePlaceInMatrix(true, new PlaceInMatrix().setPlace(net.getRow() + 1, net.getCol()));
+        }
+    }
 
     private void updateVisibleButterfly() {
         for (int i = 0; i < finals.COLS; i++) {
@@ -209,6 +208,8 @@ public class MainActivity extends AppCompatActivity {
         PlaceInMatrix placeWhereButterflyCaught = gameManager.checkIfButterflyIsCaught(seenButterfly, seenNets);
         if (placeWhereButterflyCaught != null) {//if the butterfly is caught
             picturesMatrix[placeWhereButterflyCaught.getRow()][placeWhereButterflyCaught.getCol()].setImageResource(R.drawable.img_butterfly_catched);
+            MySignal.getInstance().toast(finals.CAUGHT_MESSAGE);
+            MySignal.getInstance().vibrate();
         }
     }
 
@@ -249,9 +250,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
-
     }
-
 }
-
-

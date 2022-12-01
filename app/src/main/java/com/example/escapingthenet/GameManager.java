@@ -4,7 +4,6 @@ package com.example.escapingthenet;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GameManager {
 
@@ -74,10 +73,8 @@ public class GameManager {
 
     public PlaceInMatrix checkIfButterflyIsCaught(PlaceInMatrix placeOfButterfly, ArrayList<PlaceInMatrix> placesOfNets) {
         for (PlaceInMatrix netPlace : placesOfNets) {
-            if (didNetHit(netPlace, placeOfButterfly)) {
+            if (didNetHit(netPlace, placeOfButterfly) || netFromLeft(netPlace, placeOfButterfly) || netFromRight(netPlace, placeOfButterfly)) {
                 deaths++;
-                Log.i("deaths", "" + deaths);
-                Log.i("net who caught", "" + netPlace.getRow() + "," + netPlace.getCol());
                 return placeOfButterfly;
             }
 
@@ -96,7 +93,7 @@ public class GameManager {
         boolean bool = netPlace.getRow() == butterflyPlace.getRow() && netPlace.getCol() == butterflyPlace.getCol();
 
         Log.i("net left", "" + bool);
-        return netPlace.getRow() == butterflyPlace.getRow() && netPlace.getCol() - 1 == butterflyPlace.getCol();
+        return bool;
 
 
     }
@@ -104,9 +101,7 @@ public class GameManager {
     public boolean netFromRight(PlaceInMatrix netPlace, PlaceInMatrix butterflyPlace) {
         boolean bool = netPlace.getRow() == butterflyPlace.getRow() && netPlace.getCol() + 1 == butterflyPlace.getCol();
         Log.i("net left", "" + bool);
-        return netPlace.getRow() == butterflyPlace.getRow() && netPlace.getCol() + 1 == butterflyPlace.getCol();
-
-
+        return bool;
     }
 
     private void updateObjectMatrix(GameObjectClass gameObjectClass, int row, int col) {
