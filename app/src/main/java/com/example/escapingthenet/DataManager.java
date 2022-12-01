@@ -10,7 +10,6 @@ public class DataManager {
         butterflies.add((Butterfly) new Butterfly().setImageRes(finals.BUTTERFLY_PIC));
         butterflies.add((Butterfly) new Butterfly().setImageRes(finals.BUTTERFLY_PIC));
         butterflies.add((Butterfly) new Butterfly().setImageRes(finals.BUTTERFLY_PIC));
-        butterflies.add((Butterfly) new Butterfly().setImageRes(finals.BUTTERFLY_PIC));
         return butterflies;
     }
 

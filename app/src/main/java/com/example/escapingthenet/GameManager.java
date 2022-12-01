@@ -1,5 +1,5 @@
 package com.example.escapingthenet;
-// TODO: Do more logs!! :)))
+
 
 import android.util.Log;
 

@@ -57,14 +57,6 @@
 
             </com.google.android.material.imageview.ShapeableImageView>
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/main_IMG_pic4"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:visibility="invisible">
-
-            </com.google.android.material.imageview.ShapeableImageView>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -77,12 +69,20 @@
             android:orientation="horizontal">
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/main_IMG_pic4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible">
+
+            </com.google.android.material.imageview.ShapeableImageView>
+
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/main_IMG_pic5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:visibility="invisible"
-                tools:ignore="NestedWeights">
+                android:visibility="invisible">
 
             </com.google.android.material.imageview.ShapeableImageView>
 
@@ -95,22 +95,6 @@
 
             </com.google.android.material.imageview.ShapeableImageView>
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/main_IMG_pic7"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:visibility="invisible">
-
-            </com.google.android.material.imageview.ShapeableImageView>
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/main_IMG_pic8"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:visibility="invisible">
-
-            </com.google.android.material.imageview.ShapeableImageView>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -122,7 +106,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/main_IMG_pic9"
+                android:id="@+id/main_IMG_pic7"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -132,7 +116,7 @@
             </com.google.android.material.imageview.ShapeableImageView>
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/main_IMG_pic10"
+                android:id="@+id/main_IMG_pic8"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -141,15 +125,7 @@
             </com.google.android.material.imageview.ShapeableImageView>
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/main_IMG_pic11"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:visibility="invisible">
-
-            </com.google.android.material.imageview.ShapeableImageView>
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/main_IMG_pic12"
+                android:id="@+id/main_IMG_pic9"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -164,8 +140,46 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:baselineAligned="false"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/main_IMG_pic10"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                tools:ignore="NestedWeights">
+
+            </com.google.android.material.imageview.ShapeableImageView>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/main_IMG_pic11"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible">
+
+            </com.google.android.material.imageview.ShapeableImageView>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/main_IMG_pic12"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible">
+
+            </com.google.android.material.imageview.ShapeableImageView>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/main_LL_6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/main_LL_background"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/main_IMG_pic13"
@@ -194,32 +208,34 @@
                 android:visibility="invisible">
 
             </com.google.android.material.imageview.ShapeableImageView>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/main_LL_5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/main_LL_background"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/main_IMG_pic16"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:visibility="invisible">
+                android:visibility="invisible"
+                tools:ignore="NestedWeights">
 
             </com.google.android.material.imageview.ShapeableImageView>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/main_LL_5"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:layout_alignBottom="@+id/main_LL_background">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/main_IMG_pic17"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:visibility="invisible"
-                tools:ignore="NestedWeights">
+                android:visibility="invisible">
 
             </com.google.android.material.imageview.ShapeableImageView>
 
@@ -232,30 +248,13 @@
 
             </com.google.android.material.imageview.ShapeableImageView>
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/main_IMG_pic19"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:visibility="invisible">
-
-            </com.google.android.material.imageview.ShapeableImageView>
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/main_IMG_pic20"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:visibility="invisible">
-
-            </com.google.android.material.imageview.ShapeableImageView>
-
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
