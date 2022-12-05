@@ -2,7 +2,7 @@ package com.example.escapingthenet;
 
 public class Finals {
     public final int ROWS=6;//size of the rows
-    public final int COLS=3;//size of the columns
+    public final int COLS=5;//size of the columns
     public final int FIRST_INDEX=0;//first index of matrix
     public final int LAST_ROW_INDEX=ROWS-1;//last possible row index
     public final int LAST_COL_INDEX=COLS-1;//last possible col index

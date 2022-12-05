@@ -122,12 +122,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void initMatrix() {
         picturesMatrix = new ShapeableImageView[][]{
-                {findViewById(R.id.main_IMG_pic1), findViewById(R.id.main_IMG_pic2), findViewById(R.id.main_IMG_pic3)}
-                , {findViewById(R.id.main_IMG_pic4), findViewById(R.id.main_IMG_pic5), findViewById(R.id.main_IMG_pic6)}
-                , {findViewById(R.id.main_IMG_pic7), findViewById(R.id.main_IMG_pic8), findViewById(R.id.main_IMG_pic9)},
-                {findViewById(R.id.main_IMG_pic10), findViewById(R.id.main_IMG_pic11), findViewById(R.id.main_IMG_pic12)},
-                {findViewById(R.id.main_IMG_pic13), findViewById(R.id.main_IMG_pic14), findViewById(R.id.main_IMG_pic15)},
-                {findViewById(R.id.main_IMG_pic16), findViewById(R.id.main_IMG_pic17), findViewById(R.id.main_IMG_pic18)}
+                {findViewById(R.id.main_IMG_pic1), findViewById(R.id.main_IMG_pic2), findViewById(R.id.main_IMG_pic3),findViewById(R.id.main_IMG_pic4),findViewById(R.id.main_IMG_pic5)}
+                , {findViewById(R.id.main_IMG_pic6), findViewById(R.id.main_IMG_pic7), findViewById(R.id.main_IMG_pic8),findViewById(R.id.main_IMG_pic9),findViewById(R.id.main_IMG_pic10)}
+                , {findViewById(R.id.main_IMG_pic11), findViewById(R.id.main_IMG_pic12), findViewById(R.id.main_IMG_pic13),findViewById(R.id.main_IMG_pic14),findViewById(R.id.main_IMG_pic15)},
+                {findViewById(R.id.main_IMG_pic16), findViewById(R.id.main_IMG_pic17), findViewById(R.id.main_IMG_pic18),findViewById(R.id.main_IMG_pic19),findViewById(R.id.main_IMG_pic20)},
+                {findViewById(R.id.main_IMG_pic21), findViewById(R.id.main_IMG_pic22), findViewById(R.id.main_IMG_pic23),findViewById(R.id.main_IMG_pic24),findViewById(R.id.main_IMG_pic25)},
+                {findViewById(R.id.main_IMG_pic26), findViewById(R.id.main_IMG_pic27), findViewById(R.id.main_IMG_pic28),findViewById(R.id.main_IMG_pic29),findViewById(R.id.main_IMG_pic30)}
         };
     }
 
