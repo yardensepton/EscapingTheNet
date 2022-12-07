@@ -1,18 +1,20 @@
 package com.example.escapingthenet;
 
 public abstract class GameObjectClass {
-    private PlaceInMatrix place;
+    public Finals finals = new Finals();
     private int imageRes;
+    private Finals.visibleStatus visibleStatus;
+    private Finals.gameObject gameObjectName;
 
     public GameObjectClass() {
+
     }
 
-
-    public void setPlace(int row, int col) {
-        place = new PlaceInMatrix();
-        place.setRow(row);
-        place.setCol(col);
+    public GameObjectClass(Finals.gameObject gameObjectName) {
+        setGameObjectName(gameObjectName);
+        setVisibleStatus(Finals.visibleStatus.INVISIBLE);
     }
+
 
 
     public int getImageRes() {
@@ -24,5 +26,20 @@ public abstract class GameObjectClass {
         return this;
     }
 
+    public Finals.visibleStatus getVisibleStatus() {
+        return visibleStatus;
+    }
 
+    public void setVisibleStatus(Finals.visibleStatus visibleStatus) {
+        this.visibleStatus = visibleStatus;
+    }
+
+    public Finals.gameObject getGameObjectName(){
+        return gameObjectName;
+    }
+
+
+    public void setGameObjectName(Finals.gameObject gameObject){
+        this.gameObjectName = gameObject;
+    }
 }

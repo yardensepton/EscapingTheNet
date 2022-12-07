@@ -1,12 +1,18 @@
 package com.example.escapingthenet;
 
-public class Net extends GameObjectClass {
+public class Flower extends GameObjectClass {
+
     private PlaceInMatrix place;
+    private final int SCORE = 10;
 
-    public Net() {
-        super(Finals.gameObject.NET);
-        setImageRes(finals.NET_PIC);
 
+    public Flower() {
+        super(Finals.gameObject.FLOWER);
+        setImageRes(finals.FLOWER_PIC);
+    }
+
+    public int getSCORE() {
+        return SCORE;
     }
 
     public void setPlace(PlaceInMatrix placeInMatrix) {

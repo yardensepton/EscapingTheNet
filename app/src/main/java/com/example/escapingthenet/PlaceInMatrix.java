@@ -4,9 +4,19 @@ public class PlaceInMatrix {
 
     private int row;
     private int col;
+    private Finals.visibleStatus visibleStatus;
 
 
     public PlaceInMatrix() {
+        setVisibleStatus(Finals.visibleStatus.INVISIBLE);
+    }
+
+    public Finals.visibleStatus getVisibleStatus() {
+        return visibleStatus;
+    }
+
+    public void setVisibleStatus(Finals.visibleStatus visibleStatus) {
+        this.visibleStatus = visibleStatus;
     }
 
     public int getRow() {

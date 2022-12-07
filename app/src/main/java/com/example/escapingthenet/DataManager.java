@@ -45,5 +45,35 @@ public class DataManager {
         return nets;
     }
 
+    public static ArrayList<Net> getFlowers() {
+        ArrayList<Net> flowers = new ArrayList<>();
+        flowers.add((Net) new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net) new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net) new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        flowers.add((Net)new Net().setImageRes(finals.FLOWER_PIC));
+        return flowers;
+    }
+
 
 }
