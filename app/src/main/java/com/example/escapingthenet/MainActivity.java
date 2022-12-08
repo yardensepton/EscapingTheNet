@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
     private void caughtHandler() {//when the butterfly is caught its picture changes +vibrate and toast
         PlaceInMatrix placeWhereButterflyCaught = gameManager.checkIfButterflyIsCaught(seenButterfly, seenNets);
         if (placeWhereButterflyCaught != null) {//if the butterfly is caught
-            picturesMatrix[placeWhereButterflyCaught.getRow()][placeWhereButterflyCaught.getCol()].setImageResource(R.drawable.img_butterfly_catched);
+            picturesMatrix[placeWhereButterflyCaught.getRow()][placeWhereButterflyCaught.getCol()].setImageResource(R.drawable.caught_bobsponge);
             MySignal.getInstance().toast(finals.CAUGHT_MESSAGE);
             MySignal.getInstance().vibrate();
         }

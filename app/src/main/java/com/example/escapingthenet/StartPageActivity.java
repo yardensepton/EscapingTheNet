@@ -19,6 +19,7 @@ public class StartPageActivity extends AppCompatActivity {
     private MaterialButton start_BTN_play;
     private AppCompatImageView start_IMG_grass;
     private AppCompatImageView start_IMG_icon;
+    private AppCompatImageView start_IMG_icon2;
 
 
     @Override
@@ -32,7 +33,9 @@ public class StartPageActivity extends AppCompatActivity {
         start_IMG_grass = findViewById(R.id.start_IMG_grass);
         Glide.with(StartPageActivity.this).load(R.drawable.png_grass).into(start_IMG_grass);
         start_IMG_icon  = findViewById(R.id.start_IMG_icon);
-        Glide.with(StartPageActivity.this).load(R.drawable.png_catch).into(start_IMG_icon);
+        Glide.with(StartPageActivity.this).load(R.drawable.spongebob_running).into(start_IMG_icon);
+        start_IMG_icon2  = findViewById(R.id.start_IMG_icon2);
+        Glide.with(StartPageActivity.this).load(R.drawable.flying_jellyfish).into(start_IMG_icon2);
     }
 
     private void openGame() {

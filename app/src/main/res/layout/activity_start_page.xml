@@ -39,10 +39,20 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/start_IMG_icon"
-        android:layout_width="292dp"
-        android:layout_height="143dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
-        android:layout_above="@id/start_TXT_hello">
+        android:layout_below="@id/start_TXT_hello">
+
+    </androidx.appcompat.widget.AppCompatImageView>
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/start_IMG_icon2"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:layout_above="@id/start_IMG_icon">
 
     </androidx.appcompat.widget.AppCompatImageView>
 </RelativeLayout>
