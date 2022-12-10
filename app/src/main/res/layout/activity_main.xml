@@ -28,8 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/img_butterflynet"
-            android:visibility="invisible"
+            android:visibility="visible"
             tools:ignore="NestedWeights" />
 
         <com.google.android.material.imageview.ShapeableImageView

@@ -54,15 +54,16 @@ public class GameManager {
     public void initVisibleButterfly() {
         visibleButterfly = butterflies.get(finals.FIRST_INDEX);
         visibleButterfly.setVisibleStatus(Finals.visibleStatus.VISIBLE);
+
     }
 
-    public void updateVisibleButterfly() {
-        for (int i = 0; i < butterflies.size(); i++) {
-            if (i != visibleButterfly.getCol()) {
-                visibleButterfly.setVisibleStatus(Finals.visibleStatus.INVISIBLE);
-            }
-        }
-    }
+//    public void updateVisibleButterfly() {
+//        for (int i = 0; i < butterflies.size(); i++) {
+//            if (i != visibleButterfly.getCol()) {
+//                visibleButterfly.setVisibleStatus(Finals.visibleStatus.INVISIBLE);
+//            }
+//        }
+//    }
 
 
     public GameObjectClass[][] getObjectMatrix() {
@@ -99,6 +100,7 @@ public class GameManager {
         PlaceInMatrix place = randPlace();
         Net net = new Net();
         net.setPlace(place);
+        net.setImageRes(finals.NET_PIC);
         updateObjectMatrix(net,place);
         net.setVisibleStatus(Finals.visibleStatus.VISIBLE);
         visibleNets.add(net);
@@ -120,6 +122,7 @@ public class GameManager {
         for (int i = 1; i < finals.ROWS; i++) {
             if (randObstacle == Finals.gameObject.NET.ordinal()) {
                 Net net = new Net();
+                net.setImageRes(finals.NET_PIC);
                 objectMatrix[i][randPlace.getCol()] = net;
             } else {
                 Flower flower = new Flower();

@@ -56,21 +56,22 @@ public class MainActivity extends AppCompatActivity {
         int seconds = (int) (millis / finals.DELAY);
         seconds = seconds % finals.SIXTY;
 
-        gameManager.clearObstacles();
-        gameManager.updateVisibleButterfly();
+//        gameManager.clearObstacles();
+//        loadAllButterfliesImages();
+
         loadAllImages();
 
         if (seconds % 2 == 0) {
-            loadAllImages();
             gameManager.randomNet();
+            loadAllImages();
         }
 
         caughtHandler();
         gameManager.moveDown();
 
-        if (seconds%4==0){
-            gameManager.randomFlower();
-        }
+//        if (seconds%6==0){
+//            gameManager.randomFlower();
+//        }
     }
 
     private void stopTimer() {
@@ -98,9 +99,9 @@ public class MainActivity extends AppCompatActivity {
 
         initObstacleMatrix();
         initButterflyArray();
-
         gameManager.initVisibleButterfly();
         loadAllButterfliesImages();
+
         glides();
 
 
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadAllButterfliesImages() {
-        for (int i = 0; i < butterflyPictures.length; i++) {
+        for (int i = 0; i < finals.COLS; i++) {
             Glide.with(MainActivity.this).load(gameManager.getButterflies().get(i).getImageRes()).into(butterflyPictures[i]);
             if (gameManager.getButterflies().get(i).getVisibleStatus()== Finals.visibleStatus.VISIBLE){
                 butterflyPictures[i].setVisibility(View.VISIBLE);
@@ -175,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 gameManager.moveObjectRight();
-                changeVisibleButterfly();
+                loadAllButterfliesImages();
             }
         });
 //        main_BTN_right.setOnClickListener(v -> gameManager.moveObjectRight());
@@ -184,14 +185,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 gameManager.moveObjectLeft();
-                changeVisibleButterfly();
+                loadAllButterfliesImages();
             }
         });
     }
 
 
     public void changeVisibleButterfly(){
-        for (int i = 0; i < gameManager.getButterflies().size(); i++) {
+        for (int i = 0; i < finals.COLS; i++) {
             if ( gameManager.getButterflies().get(i).getVisibleStatus()== Finals.visibleStatus.VISIBLE){
                 butterflyPictures[i].setVisibility(View.VISIBLE);
             }
