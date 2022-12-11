@@ -1,5 +1,6 @@
 package com.example.escapingthenet;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.VibrationEffect;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 public class MySignal {
 
 
+    @SuppressLint("StaticFieldLeak")
     private static MySignal mySignal = null;
     private final Finals finals = new Finals();
 

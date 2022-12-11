@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private Timer timer;
     private long startTime = 0;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         int seconds = (int) (millis / finals.DELAY);
         seconds = seconds % finals.SIXTY;
 
-
         loadAllImages();
 
         if (seconds % 2 == 0) {
@@ -65,10 +63,6 @@ public class MainActivity extends AppCompatActivity {
         gameManager.moveDown();
 
         refreshUI();
-//        if (seconds%4==0){
-//            gameManager.randomFlower();
-//        }
-//        gameManager.moveDown();
     }
 
     private void stopTimer() {
@@ -99,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         gameManager.initVisibleButterfly();
         loadAllButterfliesImages();
         glides();
-
 
     }
 
@@ -151,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     private void initViews() {
         main_BTN_right.setOnClickListener(v -> {
             gameManager.moveObjectRight();
@@ -163,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     private void setVisiblePlaceInMatrix(boolean visible, PlaceInMatrix newPlace) {
         if (visible)
             obstaclesPicturesMatrix[newPlace.getRow()][newPlace.getCol()].setVisibility(View.VISIBLE);
@@ -171,19 +162,17 @@ public class MainActivity extends AppCompatActivity {
             obstaclesPicturesMatrix[newPlace.getRow()][newPlace.getCol()].setVisibility(View.INVISIBLE);
     }
 
-
     private void caughtHandler() {
-        PlaceInMatrix placeWhereButterflyCaught = gameManager.addScoreOrCollision(main_BTN_right.isPressed(),main_BTN_left.isPressed());
-        if (placeWhereButterflyCaught == finals.placeIfScoreIsUP){
-            MySignal.getInstance().toast(finals.SCORE_MESSAGE+ gameManager.getScore());
+        PlaceInMatrix placeWhereButterflyCaught = gameManager.addScoreOrCollision(main_BTN_right.isPressed(), main_BTN_left.isPressed());
+        if (placeWhereButterflyCaught == finals.placeIfScoreIsUP) {
+            MySignal.getInstance().toast(finals.SCORE_MESSAGE + gameManager.getScore());
 
         }
-        if (placeWhereButterflyCaught != null ) {
+        if (placeWhereButterflyCaught != null) {
             MySignal.getInstance().toast(finals.CAUGHT_MESSAGE);
             MySignal.getInstance().vibrate();
         }
     }
-
 
     private void refreshUI() {
         if (gameManager.getDeaths() <= gameManager.getLives()) {

@@ -62,18 +62,6 @@ public class GameManager {
         return new PlaceInMatrix().setPlace(finals.FIRST_INDEX, col);
     }
 
-    public PlaceInMatrix getEmptyCol() {
-        int col = 0;
-        for (int i = 0; i < finals.COLS; i++) {
-            if (objectMatrix[finals.FIRST_INDEX][i] == null) {
-                col = i;
-            }
-
-        }
-        return new PlaceInMatrix().setPlace(finals.FIRST_INDEX, col);
-    }
-
-
     public void randomObject() {
         int randObstacle = randObstacle();
         if (randObstacle == Finals.gameObject.NET.ordinal()) {

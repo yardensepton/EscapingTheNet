@@ -4,6 +4,7 @@ public class Butterfly extends Obstacle {
     private boolean caught;
     private int col;
 
+
     public Butterfly() {
         super(Finals.gameObject.BUTTERFLY);
         setImageRes(finals.BUTTERFLY_PIC);
