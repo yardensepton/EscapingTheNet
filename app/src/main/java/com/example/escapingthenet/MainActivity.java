@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private ExtendedFloatingActionButton main_BTN_left;
     private ShapeableImageView[] game_IMG_hearts;
     private ShapeableImageView[][] obstaclesPicturesMatrix;
-    private ShapeableImageView[] butterflyPictures;
+    private ShapeableImageView[] jellyfishPictures;
     private GameManager gameManager;
     private Finals finals;
     private Timer timer;
@@ -89,9 +89,9 @@ public class MainActivity extends AppCompatActivity {
         main_BTN_left = findViewById(R.id.main_BTN_left);
 
         initObstacleMatrix();
-        initButterflyArray();
-        gameManager.initVisibleButterfly();
-        loadAllButterfliesImages();
+        initJellyfishArray();
+        gameManager.initVisibleJellyfish();
+        loadAllJellyfishImages();
         glides();
 
     }
@@ -107,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    private void initButterflyArray() {
-        butterflyPictures = new ShapeableImageView[]{
+    private void initJellyfishArray() {
+        jellyfishPictures = new ShapeableImageView[]{
                 findViewById(R.id.main_IMG_picB), findViewById(R.id.main_IMG_picB2), findViewById(R.id.main_IMG_picB3), findViewById(R.id.main_IMG_picB4), findViewById(R.id.main_IMG_picB5)
         };
 
@@ -132,13 +132,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void loadAllButterfliesImages() {
+    private void loadAllJellyfishImages() {
         for (int i = 0; i < finals.COLS; i++) {
-            Glide.with(MainActivity.this).load(gameManager.getButterflies().get(i).getImageRes()).into(butterflyPictures[i]);
-            if (gameManager.getButterflies().get(i).getVisibleStatus() == Finals.visibleStatus.VISIBLE) {
-                butterflyPictures[i].setVisibility(View.VISIBLE);
+            Glide.with(MainActivity.this).load(gameManager.getJellyfishArrayList().get(i).getImageRes()).into(jellyfishPictures[i]);
+            if (gameManager.getJellyfishArrayList().get(i).getVisibleStatus() == Finals.visibleStatus.VISIBLE) {
+                jellyfishPictures[i].setVisibility(View.VISIBLE);
             } else {
-                butterflyPictures[i].setVisibility(View.INVISIBLE);
+                jellyfishPictures[i].setVisibility(View.INVISIBLE);
             }
         }
 
@@ -147,11 +147,11 @@ public class MainActivity extends AppCompatActivity {
     private void initViews() {
         main_BTN_right.setOnClickListener(v -> {
             gameManager.moveObjectRight();
-            loadAllButterfliesImages();
+            loadAllJellyfishImages();
         });
         main_BTN_left.setOnClickListener(v -> {
             gameManager.moveObjectLeft();
-            loadAllButterfliesImages();
+            loadAllJellyfishImages();
         });
     }
 
@@ -163,12 +163,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void caughtHandler() {
-        PlaceInMatrix placeWhereButterflyCaught = gameManager.addScoreOrCollision(main_BTN_right.isPressed(), main_BTN_left.isPressed());
-        if (placeWhereButterflyCaught == finals.placeIfScoreIsUP) {
+        PlaceInMatrix placeWhereJellyfishCaught = gameManager.addScoreOrCollision(main_BTN_right.isPressed(), main_BTN_left.isPressed());
+        if (placeWhereJellyfishCaught == finals.placeIfScoreIsUP) {
             MySignal.getInstance().toast(finals.SCORE_MESSAGE + gameManager.getScore());
 
         }
-        if (placeWhereButterflyCaught != null) {
+        if (placeWhereJellyfishCaught != null) {
             MySignal.getInstance().toast(finals.CAUGHT_MESSAGE);
             MySignal.getInstance().vibrate();
         }

@@ -3,16 +3,14 @@ package com.example.escapingthenet;
 import java.util.ArrayList;
 public class DataManager {
 
-    static Finals finals = new Finals();
-
-    public static ArrayList<Butterfly> getButterflies() {
-        ArrayList<Butterfly> butterflies = new ArrayList<>();
-        butterflies.add((Butterfly) new Butterfly().setImageRes(finals.BUTTERFLY_PIC));
-        butterflies.add((Butterfly) new Butterfly().setImageRes(finals.BUTTERFLY_PIC));
-        butterflies.add((Butterfly) new Butterfly().setImageRes(finals.BUTTERFLY_PIC));
-        butterflies.add((Butterfly) new Butterfly().setImageRes(finals.BUTTERFLY_PIC));
-        butterflies.add((Butterfly) new Butterfly().setImageRes(finals.BUTTERFLY_PIC));
-        return butterflies;
+    public static ArrayList<Jellyfish> getJellyfishArrayList() {
+        ArrayList<Jellyfish> jellyfishArrayList = new ArrayList<>();
+        jellyfishArrayList.add((Jellyfish) new Jellyfish());
+        jellyfishArrayList.add((Jellyfish) new Jellyfish());
+        jellyfishArrayList.add((Jellyfish) new Jellyfish());
+        jellyfishArrayList.add((Jellyfish) new Jellyfish());
+        jellyfishArrayList.add((Jellyfish) new Jellyfish());
+        return jellyfishArrayList;
     }
 
 }

@@ -9,8 +9,8 @@ public class GameManager {
     private int deaths = 0;
     private GameObjectClass[][] objectMatrix;
     private int lives;
-    private Butterfly visibleButterfly;
-    private ArrayList<Butterfly> butterflies;
+    private Jellyfish visibleJellyfish;
+    private ArrayList<Jellyfish> jellyfishArrayList;
     private int score = 0;
 
     public GameManager() {
@@ -19,9 +19,9 @@ public class GameManager {
     public GameManager(int lives) {
         objectMatrix = new GameObjectClass[finals.ROWS][finals.COLS];
         setLives(lives);
-        butterflies = DataManager.getButterflies();
-        visibleButterfly = new Butterfly();
-        setPlacesButterfly();
+        jellyfishArrayList = DataManager.getJellyfishArrayList();
+        visibleJellyfish = new Jellyfish();
+        setPlacesJellyfish();
 
     }
 
@@ -33,19 +33,19 @@ public class GameManager {
         this.score = score;
     }
 
-    public ArrayList<Butterfly> getButterflies() {
-        return butterflies;
+    public ArrayList<Jellyfish> getJellyfishArrayList() {
+        return jellyfishArrayList;
     }
 
-    public void setPlacesButterfly() {
-        for (int i = 0; i < butterflies.size(); i++) {
-            butterflies.get(i).setCol(i);
+    public void setPlacesJellyfish() {
+        for (int i = 0; i < jellyfishArrayList.size(); i++) {
+            jellyfishArrayList.get(i).setCol(i);
         }
     }
 
-    public void initVisibleButterfly() {
-        visibleButterfly = butterflies.get(finals.FIRST_INDEX);
-        visibleButterfly.setVisibleStatus(Finals.visibleStatus.VISIBLE);
+    public void initVisibleJellyfish() {
+        visibleJellyfish = jellyfishArrayList.get(finals.FIRST_INDEX);
+        visibleJellyfish.setVisibleStatus(Finals.visibleStatus.VISIBLE);
 
     }
 
@@ -67,7 +67,7 @@ public class GameManager {
         if (randObstacle == Finals.gameObject.NET.ordinal()) {
             randomNet();
         } else {
-            randomFlower();
+            randomJam();
 
         }
     }
@@ -97,15 +97,15 @@ public class GameManager {
         fillColWithObjects(place, Finals.gameObject.NET.ordinal());
     }
 
-    public void randomFlower() {
+    public void randomJam() {
         PlaceInMatrix place = randPlace();
         while (checkIfCanBeRandomized(place)) {
             place = randPlace();
         }
-        Flower flower = new Flower();
-        updateMatrixAndObjectPlace(flower, place);
-        flower.setVisibleStatus(Finals.visibleStatus.VISIBLE);
-        fillColWithObjects(place, Finals.gameObject.FLOWER.ordinal());
+        Jam jam = new Jam();
+        updateMatrixAndObjectPlace(jam, place);
+        jam.setVisibleStatus(Finals.visibleStatus.VISIBLE);
+        fillColWithObjects(place, Finals.gameObject.JAM.ordinal());
 
     }
 
@@ -115,8 +115,8 @@ public class GameManager {
                 Net net = new Net();
                 updateMatrixAndObjectPlace(net, new PlaceInMatrix().setPlace(i, randPlace.getCol()));
             } else {
-                Flower flower = new Flower();
-                updateMatrixAndObjectPlace(flower, new PlaceInMatrix().setPlace(i, randPlace.getCol()));
+                Jam jam = new Jam();
+                updateMatrixAndObjectPlace(jam, new PlaceInMatrix().setPlace(i, randPlace.getCol()));
             }
 
         }
@@ -124,22 +124,22 @@ public class GameManager {
 
 
     public void moveObjectLeft() {
-        visibleButterfly.setVisibleStatus(Finals.visibleStatus.INVISIBLE);
-        int currentCol = visibleButterfly.getCol();
-        if (visibleButterfly != butterflies.get(finals.FIRST_INDEX)) {
-            visibleButterfly = butterflies.get(currentCol - 1);
+        visibleJellyfish.setVisibleStatus(Finals.visibleStatus.INVISIBLE);
+        int currentCol = visibleJellyfish.getCol();
+        if (visibleJellyfish != jellyfishArrayList.get(finals.FIRST_INDEX)) {
+            visibleJellyfish = jellyfishArrayList.get(currentCol - 1);
         }
-        visibleButterfly.setVisibleStatus(Finals.visibleStatus.VISIBLE);
+        visibleJellyfish.setVisibleStatus(Finals.visibleStatus.VISIBLE);
 
     }
 
     public void moveObjectRight() {
-        visibleButterfly.setVisibleStatus(Finals.visibleStatus.INVISIBLE);
-        int currentCol = visibleButterfly.getCol();
-        if (visibleButterfly != butterflies.get(finals.LAST_COL_INDEX)) {
-            visibleButterfly = butterflies.get(currentCol + 1);
+        visibleJellyfish.setVisibleStatus(Finals.visibleStatus.INVISIBLE);
+        int currentCol = visibleJellyfish.getCol();
+        if (visibleJellyfish != jellyfishArrayList.get(finals.LAST_COL_INDEX)) {
+            visibleJellyfish = jellyfishArrayList.get(currentCol + 1);
         }
-        visibleButterfly.setVisibleStatus(Finals.visibleStatus.VISIBLE);
+        visibleJellyfish.setVisibleStatus(Finals.visibleStatus.VISIBLE);
     }
 
 
@@ -167,7 +167,7 @@ public class GameManager {
                 if (objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Net) {
                     return checkCollisionAndRemoveLife(i, right, left);
                 }
-                if (objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Flower) {
+                if (objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Jam) {
                     return checkAddScore(i, right, left);
                 }
             }
@@ -178,16 +178,16 @@ public class GameManager {
 
     public PlaceInMatrix checkCollisionAndRemoveLife(int i, boolean right, boolean left) {
         Net net = (Net) objectMatrix[finals.LAST_ROW_INDEX][i];
-        if (visibleButterfly.isCaughtRight(net, right) || visibleButterfly.isCaught(net) || visibleButterfly.isCaughtLeft(net, left)) {
+        if (visibleJellyfish.isCaughtRight(net, right) || visibleJellyfish.isCaught(net) || visibleJellyfish.isCaughtLeft(net, left)) {
             deaths++;
         }
         return net.getPlace();
     }
 
     public PlaceInMatrix checkAddScore(int i, boolean right, boolean left) {
-        Flower flower = (Flower) objectMatrix[finals.LAST_ROW_INDEX][i];
-        if (visibleButterfly.isCaughtRight(flower, right) || visibleButterfly.isCaught(flower) || visibleButterfly.isCaughtLeft(flower, left)) {
-            score += flower.getSCORE();
+        Jam jam = (Jam) objectMatrix[finals.LAST_ROW_INDEX][i];
+        if (visibleJellyfish.isCaughtRight(jam, right) || visibleJellyfish.isCaught(jam) || visibleJellyfish.isCaughtLeft(jam, left)) {
+            score += jam.getSCORE();
         }
         return finals.placeIfScoreIsUP;
     }

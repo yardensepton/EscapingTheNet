@@ -1,13 +1,13 @@
 package com.example.escapingthenet;
 
-public class Butterfly extends Obstacle {
+public class Jellyfish extends Obstacle {
     private boolean caught;
     private int col;
 
 
-    public Butterfly() {
-        super(Finals.gameObject.BUTTERFLY);
-        setImageRes(finals.BUTTERFLY_PIC);
+    public Jellyfish() {
+        super(Finals.gameObject.JELLYFISH);
+        setImageRes(finals.JELLYFISH_PIC);
         resetCaught();
     }
 
