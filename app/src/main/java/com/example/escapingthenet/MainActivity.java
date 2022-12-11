@@ -56,9 +56,6 @@ public class MainActivity extends AppCompatActivity {
         int seconds = (int) (millis / finals.DELAY);
         seconds = seconds % finals.SIXTY;
 
-//        gameManager.clearObstacles();
-//        loadAllButterfliesImages();
-
         loadAllImages();
 
         if (seconds % 2 == 0) {
@@ -66,10 +63,11 @@ public class MainActivity extends AppCompatActivity {
             loadAllImages();
         }
 
+
         caughtHandler();
         gameManager.moveDown();
-
-//        if (seconds%6==0){
+        refreshUI();
+//        if (seconds%4==0){
 //            gameManager.randomFlower();
 //        }
     }
@@ -145,13 +143,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//    public void initVisibleButterfly() {
-//        seenButterfly = new PlaceInMatrix();
-//        seenNets = new ArrayList<>();
-//        seenButterfly.setPlace(finals.LAST_ROW_INDEX, finals.FIRST_INDEX);
-//        setVisiblePlaceInMatrix(true, seenButterfly);
-//    }
-
 
     private void initObstacleMatrix() {
         obstaclesPicturesMatrix = new ShapeableImageView[][]{
@@ -179,8 +170,6 @@ public class MainActivity extends AppCompatActivity {
                 loadAllButterfliesImages();
             }
         });
-//        main_BTN_right.setOnClickListener(v -> gameManager.moveObjectRight());
-//        main_BTN_left.setOnClickListener(v -> gameManager.moveObjectLeft());
         main_BTN_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,63 +180,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void changeVisibleButterfly(){
-        for (int i = 0; i < finals.COLS; i++) {
-            if ( gameManager.getButterflies().get(i).getVisibleStatus()== Finals.visibleStatus.VISIBLE){
-                butterflyPictures[i].setVisibility(View.VISIBLE);
-            }
-            else{
-                butterflyPictures[i].setVisibility(View.INVISIBLE);
-            }
-        }
-    }
-
-//    public void moveButterfly(PlaceInMatrix newPlace) {
-//        if (seenButterfly != newPlace) {
-//            setVisiblePlaceInMatrix(false, seenButterfly);
-//        }
-//        setVisiblePlaceInMatrix(true, newPlace);
-//        seenButterfly.setPlace(newPlace.getRow(), newPlace.getCol());
-//        updateVisibleButterfly();
-//        refreshUI();
-//    }
-//
-//    public void moveObjectLeft() {
-//        PlaceInMatrix newPlace;
-//        if (seenButterfly.getCol() == finals.FIRST_INDEX) {
-//            newPlace = seenButterfly;
-//        } else {
-//            newPlace = new PlaceInMatrix().setPlace(seenButterfly.getRow(), seenButterfly.getCol() - 1);
-//        }
-//
-//        moveButterfly(newPlace);
-//    }
-//
-//    public void moveObjectRight() {
-//        PlaceInMatrix newPlace;
-//        if (seenButterfly.getCol() == finals.LAST_COL_INDEX) {
-//            newPlace = seenButterfly;
-//        } else {
-//            newPlace = new PlaceInMatrix().setPlace(seenButterfly.getRow(), seenButterfly.getCol() + 1);
-//        }
-//
-//        moveButterfly(newPlace);
-//    }
-
-
-//    public void moveNet() {
-//        ArrayList<PlaceInMatrix> fallenNets = new ArrayList<>();
-//        for (PlaceInMatrix net : seenNets) {
-//            //for every seen net - check if it reached the butterfly row - meaning her job is over so remove it.
-//            boolean shouldDeleteNet = moveObjectDownTillEnd(net);
-//            if (shouldDeleteNet) {
-//                fallenNets.add(net);
-//            }
-//        }
-//
-//        seenNets.removeAll(fallenNets);
-//        refreshUI();
-//    }
 
 
     private void setVisiblePlaceInMatrix(boolean visible, PlaceInMatrix newPlace) {
@@ -257,56 +189,15 @@ public class MainActivity extends AppCompatActivity {
             obstaclesPicturesMatrix[newPlace.getRow()][newPlace.getCol()].setVisibility(View.INVISIBLE);
     }
 
-    //Returns true if the net has reached the row of the butterflies.
-//    private boolean moveObjectDownTillEnd(PlaceInMatrix net) {
-//        setVisiblePlaceInMatrix(false, net.setPlace(net.getRow(), net.getCol()));
-//        if (finals.LAST_ROW_INDEX != net.getRow() + 1) {
-//            setVisiblePlaceInMatrix(true, net.setPlace(net.getRow() + 1, net.getCol()));
-//        } else {
-//            finalNetPlaceHandler(net);
-//            return true;
-//        }
-//
-//        return false;
-//    }
 
-
-//    private void finalNetPlaceHandler(PlaceInMatrix net) {
-//        //if the net reaches the last row -
-//        // the butterfly picture changes to net for a second
-//        if (net.getCol() != seenButterfly.getCol()) {
-//            obstaclesPicturesMatrix[net.getRow() + 1][net.getCol()].setImageResource(finals.NET_PIC);
-//            setVisiblePlaceInMatrix(true, new PlaceInMatrix().setPlace(net.getRow() + 1, net.getCol()));
-//        }
-//    }
-
-//    private void updateVisibleButterfly() {//every second the visible butterfly is updated
-//        for (int i = 0; i < finals.COLS; i++) {
-//            if (i != seenButterfly.getCol()) {
-//                setVisiblePlaceInMatrix(false, new PlaceInMatrix().setPlace(finals.LAST_ROW_INDEX, i));
-//                picturesMatrix[i][finals.LAST_ROW_INDEX] = null;
-//            }
-//        }
-//    }
-
-    private void caughtHandler() {//when the butterfly is caught its picture changes +vibrate and toast
+    private void caughtHandler() {
         PlaceInMatrix placeWhereButterflyCaught = gameManager.collision();
         if (placeWhereButterflyCaught != null) {//if the butterfly is caught
-            obstaclesPicturesMatrix[placeWhereButterflyCaught.getRow()][placeWhereButterflyCaught.getCol()].setImageResource(R.drawable.img_butterfly_catched);
             MySignal.getInstance().toast(finals.CAUGHT_MESSAGE);
             MySignal.getInstance().vibrate();
         }
     }
 
-
-//    private void randomizeVisible() { //random a net and add to the visible nets array
-//        Random rand = new Random();
-//        int randCols = rand.nextInt(finals.COLS);
-//        PlaceInMatrix place = new PlaceInMatrix();
-//        place.setPlace(finals.FIRST_INDEX, randCols);
-//        setVisiblePlaceInMatrix(true, place);
-//        seenNets.add(place);
-//    }
 
 
     private void refreshUI() {

@@ -20,7 +20,8 @@ public class Butterfly extends GameObjectClass {
     }
 
     public boolean isCaught(Net netPlace) {
-        this.caught = netPlace.getPlace().getRow() == finals.LAST_ROW_INDEX && netPlace.getPlace().getCol() == this.getCol();
+        this.caught = netPlace.getPlace().getRow() == finals.LAST_ROW_INDEX &&
+                netPlace.getPlace().getCol() == this.getCol();
         return caught;
     }
 
