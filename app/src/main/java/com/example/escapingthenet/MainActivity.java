@@ -3,6 +3,7 @@ package com.example.escapingthenet;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private ShapeableImageView[] game_IMG_hearts;
     private ShapeableImageView[][] obstaclesPicturesMatrix;
     private ShapeableImageView[] jellyfishPictures;
+    private TextView main_TXT_score;
     private GameManager gameManager;
     private Finals finals;
     private Timer timer;
@@ -80,14 +82,15 @@ public class MainActivity extends AppCompatActivity {
         startTime = System.currentTimeMillis();
     }
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult", "SetTextI18n"})
     private void findViews() {
         game_IMG_hearts = new ShapeableImageView[]{findViewById(R.id.game_IMG_heart1), findViewById(R.id.game_IMG_heart2), findViewById(R.id.game_IMG_heart3)};
         gameManager = new GameManager(game_IMG_hearts.length);
         finals = new Finals();
         main_BTN_right = findViewById(R.id.main_BTN_right);
         main_BTN_left = findViewById(R.id.main_BTN_left);
-
+        main_TXT_score = findViewById(R.id.main_TXT_score);
+        main_TXT_score.setText(""+finals.FIRST_INDEX);
         initObstacleMatrix();
         initJellyfishArray();
         gameManager.initVisibleJellyfish();
@@ -162,13 +165,13 @@ public class MainActivity extends AppCompatActivity {
             obstaclesPicturesMatrix[newPlace.getRow()][newPlace.getCol()].setVisibility(View.INVISIBLE);
     }
 
+    @SuppressLint("SetTextI18n")
     private void caughtHandler() {
         PlaceInMatrix placeWhereJellyfishCaught = gameManager.addScoreOrCollision(main_BTN_right.isPressed(), main_BTN_left.isPressed());
-        if (placeWhereJellyfishCaught == finals.placeIfScoreIsUP) {
-            MySignal.getInstance().toast(finals.SCORE_MESSAGE + gameManager.getScore());
-
+        if (placeWhereJellyfishCaught != null && placeWhereJellyfishCaught.equals(finals.placeIfScoreIsUP)) {
+            main_TXT_score.setText(""+gameManager.getScore());
         }
-        if (placeWhereJellyfishCaught != null) {
+        else if (placeWhereJellyfishCaught != null) {
             MySignal.getInstance().toast(finals.CAUGHT_MESSAGE);
             MySignal.getInstance().vibrate();
         }

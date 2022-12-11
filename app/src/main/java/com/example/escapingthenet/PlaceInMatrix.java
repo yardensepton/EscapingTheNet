@@ -28,6 +28,13 @@ public class PlaceInMatrix {
         return this;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlaceInMatrix place = (PlaceInMatrix) o;
+        return row == place.row && col == place.col;
+    }
 
 }
 

@@ -1,6 +1,7 @@
 package com.example.escapingthenet;
 
 
+
 import java.util.ArrayList;
 
 public class GameManager {
@@ -167,7 +168,7 @@ public class GameManager {
                 if (objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Net) {
                     return checkCollisionAndRemoveLife(i, right, left);
                 }
-                if (objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Jam) {
+                else if (objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Jam) {
                     return checkAddScore(i, right, left);
                 }
             }
