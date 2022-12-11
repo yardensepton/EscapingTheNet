@@ -15,8 +15,6 @@ public abstract class GameObjectClass {
         setVisibleStatus(Finals.visibleStatus.INVISIBLE);
     }
 
-
-
     public int getImageRes() {
         return imageRes;
     }

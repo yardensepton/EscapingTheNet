@@ -1,7 +1,6 @@
 package com.example.escapingthenet;
 
-public class Net extends GameObjectClass {
-    private PlaceInMatrix place;
+public class Net extends Obstacle {
 
     public Net() {
         super(Finals.gameObject.NET);
@@ -9,13 +8,4 @@ public class Net extends GameObjectClass {
 
     }
 
-    public void setPlace(PlaceInMatrix placeInMatrix) {
-        place = new PlaceInMatrix();
-        place.setRow(placeInMatrix.getRow());
-        place.setCol(placeInMatrix.getCol());
-    }
-
-    public PlaceInMatrix getPlace() {
-        return place;
-    }
 }

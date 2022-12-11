@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,8 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private Finals finals;
     private Timer timer;
     private long startTime = 0;
-    private PlaceInMatrix seenButterfly;
-    private ArrayList<PlaceInMatrix> seenNets;
 
 
     @Override
@@ -56,20 +53,22 @@ public class MainActivity extends AppCompatActivity {
         int seconds = (int) (millis / finals.DELAY);
         seconds = seconds % finals.SIXTY;
 
+
         loadAllImages();
 
         if (seconds % 2 == 0) {
             gameManager.randomNet();
             loadAllImages();
         }
-
-
+        //do not change the order - caught then move
         caughtHandler();
         gameManager.moveDown();
+
         refreshUI();
 //        if (seconds%4==0){
 //            gameManager.randomFlower();
 //        }
+//        gameManager.moveDown();
     }
 
     private void stopTimer() {
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("CheckResult")
     private void findViews() {
-        game_IMG_hearts = new ShapeableImageView[]{findViewById(R.id.game_IMG_heart3), findViewById(R.id.game_IMG_heart2), findViewById(R.id.game_IMG_heart1)};
+        game_IMG_hearts = new ShapeableImageView[]{findViewById(R.id.game_IMG_heart1), findViewById(R.id.game_IMG_heart2), findViewById(R.id.game_IMG_heart3)};
         gameManager = new GameManager(game_IMG_hearts.length);
         finals = new Finals();
         main_BTN_right = findViewById(R.id.main_BTN_right);
@@ -99,50 +98,10 @@ public class MainActivity extends AppCompatActivity {
         initButterflyArray();
         gameManager.initVisibleButterfly();
         loadAllButterfliesImages();
-
         glides();
 
 
     }
-
-    private void glides() {
-        loadAllImages();
-        AppCompatImageView main_IMG_background = findViewById(R.id.main_IMG_background);
-        Glide.with(MainActivity.this).load(R.drawable.img_background).into(main_IMG_background);
-
-    }
-
-
-    private void loadAllImages() {
-        for (int i = 0; i < finals.ROWS; i++) {
-            for (int j = 0; j < finals.COLS; j++) {
-                if (gameManager.getObjectMatrix()[i][j] != null) {
-                    Glide.with(MainActivity.this).load(gameManager.getObjectMatrix()[i][j].getImageRes()).into(obstaclesPicturesMatrix[i][j]);
-                    if (gameManager.getObjectMatrix()[i][j].getVisibleStatus()== Finals.visibleStatus.VISIBLE){
-                        setVisiblePlaceInMatrix(true, new PlaceInMatrix().setPlace(i, j));
-                    }
-                    else{
-                        setVisiblePlaceInMatrix(false, new PlaceInMatrix().setPlace(i, j));
-
-                    }
-                }
-            }
-        }
-    }
-
-    private void loadAllButterfliesImages() {
-        for (int i = 0; i < finals.COLS; i++) {
-            Glide.with(MainActivity.this).load(gameManager.getButterflies().get(i).getImageRes()).into(butterflyPictures[i]);
-            if (gameManager.getButterflies().get(i).getVisibleStatus()== Finals.visibleStatus.VISIBLE){
-                butterflyPictures[i].setVisibility(View.VISIBLE);
-            }else {
-                butterflyPictures[i].setVisibility(View.INVISIBLE);
-            }
-        }
-    }
-
-
-
 
     private void initObstacleMatrix() {
         obstaclesPicturesMatrix = new ShapeableImageView[][]{
@@ -162,24 +121,47 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initViews() {
-        main_BTN_right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gameManager.moveObjectRight();
-                loadAllButterfliesImages();
+    private void glides() {
+        loadAllImages();
+        AppCompatImageView main_IMG_background = findViewById(R.id.main_IMG_background);
+        Glide.with(MainActivity.this).load(R.drawable.img_background).into(main_IMG_background);
+
+    }
+
+    private void loadAllImages() {
+        for (int i = 0; i < finals.ROWS; i++) {
+            for (int j = 0; j < finals.COLS; j++) {
+                if (gameManager.getObjectMatrix()[i][j] != null) {
+                    Glide.with(MainActivity.this).load(gameManager.getObjectMatrix()[i][j].getImageRes()).into(obstaclesPicturesMatrix[i][j]);
+                    setVisiblePlaceInMatrix(gameManager.getObjectMatrix()[i][j].getVisibleStatus() == Finals.visibleStatus.VISIBLE, new PlaceInMatrix().setPlace(i, j));
+                }
             }
-        });
-        main_BTN_left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gameManager.moveObjectLeft();
-                loadAllButterfliesImages();
+        }
+    }
+
+    private void loadAllButterfliesImages() {
+        for (int i = 0; i < finals.COLS; i++) {
+            Glide.with(MainActivity.this).load(gameManager.getButterflies().get(i).getImageRes()).into(butterflyPictures[i]);
+            if (gameManager.getButterflies().get(i).getVisibleStatus() == Finals.visibleStatus.VISIBLE) {
+                butterflyPictures[i].setVisibility(View.VISIBLE);
+            } else {
+                butterflyPictures[i].setVisibility(View.INVISIBLE);
             }
-        });
+        }
+
     }
 
 
+    private void initViews() {
+        main_BTN_right.setOnClickListener(v -> {
+            gameManager.moveObjectRight();
+            loadAllButterfliesImages();
+        });
+        main_BTN_left.setOnClickListener(v -> {
+            gameManager.moveObjectLeft();
+            loadAllButterfliesImages();
+        });
+    }
 
 
     private void setVisiblePlaceInMatrix(boolean visible, PlaceInMatrix newPlace) {
@@ -191,21 +173,25 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void caughtHandler() {
-        PlaceInMatrix placeWhereButterflyCaught = gameManager.collision();
-        if (placeWhereButterflyCaught != null) {//if the butterfly is caught
+        PlaceInMatrix placeWhereButterflyCaught = gameManager.addScoreOrCollision(main_BTN_right.isPressed(),main_BTN_left.isPressed());
+        if (placeWhereButterflyCaught == finals.placeIfScoreIsUP){
+            MySignal.getInstance().toast(finals.SCORE_MESSAGE+ gameManager.getScore());
+
+        }
+        if (placeWhereButterflyCaught != null ) {
             MySignal.getInstance().toast(finals.CAUGHT_MESSAGE);
             MySignal.getInstance().vibrate();
         }
     }
 
 
-
     private void refreshUI() {
         if (gameManager.getDeaths() <= gameManager.getLives()) {
             for (int i = 0; i < gameManager.getDeaths(); i++) {
-                game_IMG_hearts[i].setImageResource(R.drawable.ic_brokenheart);
+                game_IMG_hearts[i].setVisibility(View.INVISIBLE);
 
             }
         }
+
     }
 }

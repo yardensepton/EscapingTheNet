@@ -62,7 +62,19 @@ public class GameManager {
 
     public PlaceInMatrix randPlace() {
         Random random = new Random();
+//        int col = random.nextInt(finals.LAST_COL_INDEX);
         int col = random.nextInt(finals.COLS);
+        return new PlaceInMatrix().setPlace(finals.FIRST_INDEX, col);
+    }
+
+    public PlaceInMatrix getEmptyCol() {
+        int col = 0;
+        for (int i = 0; i < finals.COLS; i++) {
+            if (objectMatrix[finals.FIRST_INDEX][i] == null) {
+                col = i;
+            }
+
+        }
         return new PlaceInMatrix().setPlace(finals.FIRST_INDEX, col);
     }
 
@@ -81,111 +93,104 @@ public class GameManager {
 //        }
 //    }
 
-
+    /**
+     * if the col has already visible objects that fall down - the col can't be randomized
+     */
     public boolean checkIfCanBeRandomized(PlaceInMatrix place) {
         for (int i = 0; i < finals.LAST_ROW_INDEX; i++) {
-            if (objectMatrix[i][place.getCol()] !=null){
-                if (objectMatrix[i][place.getCol()].getVisibleStatus() != Finals.visibleStatus.INVISIBLE){
-                    return false;
+            if (objectMatrix[i][place.getCol()] != null) {
+                if (objectMatrix[i][place.getCol()].getVisibleStatus() != Finals.visibleStatus.INVISIBLE) {
+                    return true;
                 }
-
             }
-
         }
-        return true;
+        return false;
     }
 
-        public void randomNet () {
-            PlaceInMatrix place = randPlace();
-            while (!checkIfCanBeRandomized(place)) {
-                place = randPlace();
-            }
-            Net net = new Net();
-            net.setPlace(place);
-            updateMatrixAndObjectPlace(net, place);
-            net.setVisibleStatus(Finals.visibleStatus.VISIBLE);
-            fillColWithObjects(place, Finals.gameObject.NET.ordinal());
+    public void randomNet() {
+        PlaceInMatrix place = randPlace();
+        while (checkIfCanBeRandomized(place)) {
+            place = randPlace();
         }
+        Net net = new Net();
+        updateMatrixAndObjectPlace(net, place);
+        net.setVisibleStatus(Finals.visibleStatus.VISIBLE);
+        fillColWithObjects(place, Finals.gameObject.NET.ordinal());
+    }
 
-        public void randomFlower () {
-            PlaceInMatrix place = randPlace();
-            while (!checkIfCanBeRandomized(place)) {
-                place = randPlace();
-            }
-            Flower flower = new Flower();
-            updateMatrixAndObjectPlace(flower, place);
-            flower.setPlace(place);
-            flower.setVisibleStatus(Finals.visibleStatus.VISIBLE);
-            fillColWithObjects(place, Finals.gameObject.NET.ordinal());
-
+    public void randomFlower() {
+//        PlaceInMatrix place = getEmptyCol();
+        PlaceInMatrix place = randPlace();
+        while (checkIfCanBeRandomized(place)) {
+            place = randPlace();
         }
+        Flower flower = new Flower();
+        updateMatrixAndObjectPlace(flower, place);
+        flower.setVisibleStatus(Finals.visibleStatus.VISIBLE);
+        fillColWithObjects(place, Finals.gameObject.FLOWER.ordinal());
 
-        public void fillColWithObjects (PlaceInMatrix randPlace,int randObstacle){
-            for (int i = 1; i < finals.ROWS; i++) {
-                if (randObstacle == Finals.gameObject.NET.ordinal()) {
-                    Net net = new Net();
-                    objectMatrix[i][randPlace.getCol()] = net;
-                    net.setPlace(new PlaceInMatrix().setPlace(i,randPlace.getCol()));
-                } else {
-                    Flower flower = new Flower();
-                    objectMatrix[i][randPlace.getCol()] = flower;
-                    flower.setPlace(new PlaceInMatrix().setPlace(i,randPlace.getCol()));
+    }
 
-                }
-
+    public void fillColWithObjects(PlaceInMatrix randPlace, int randObstacle) {
+        for (int i = 1; i < finals.ROWS; i++) {
+            if (randObstacle == Finals.gameObject.NET.ordinal()) {
+                Net net = new Net();
+                updateMatrixAndObjectPlace(net,new PlaceInMatrix().setPlace(i,randPlace.getCol()));
+            } else {
+                Flower flower = new Flower();
+                updateMatrixAndObjectPlace(flower,new PlaceInMatrix().setPlace(i,randPlace.getCol()));
             }
-        }
-
-
-
-
-        public void moveObjectLeft () {
-            visibleButterfly.setVisibleStatus(Finals.visibleStatus.INVISIBLE);
-            int currentCol = visibleButterfly.getCol();
-            if (visibleButterfly != butterflies.get(finals.FIRST_INDEX)) {
-                visibleButterfly = butterflies.get(currentCol - 1);
-            }
-            visibleButterfly.setVisibleStatus(Finals.visibleStatus.VISIBLE);
 
         }
+    }
 
-        public void moveObjectRight () {
-            visibleButterfly.setVisibleStatus(Finals.visibleStatus.INVISIBLE);
-            int currentCol = visibleButterfly.getCol();
-            if (visibleButterfly != butterflies.get(finals.LAST_COL_INDEX)) {
-                visibleButterfly = butterflies.get(currentCol + 1);
-            }
-            visibleButterfly.setVisibleStatus(Finals.visibleStatus.VISIBLE);
+
+    public void moveObjectLeft() {
+        visibleButterfly.setVisibleStatus(Finals.visibleStatus.INVISIBLE);
+        int currentCol = visibleButterfly.getCol();
+        if (visibleButterfly != butterflies.get(finals.FIRST_INDEX)) {
+            visibleButterfly = butterflies.get(currentCol - 1);
         }
+        visibleButterfly.setVisibleStatus(Finals.visibleStatus.VISIBLE);
+
+    }
+
+    public void moveObjectRight() {
+        visibleButterfly.setVisibleStatus(Finals.visibleStatus.INVISIBLE);
+        int currentCol = visibleButterfly.getCol();
+        if (visibleButterfly != butterflies.get(finals.LAST_COL_INDEX)) {
+            visibleButterfly = butterflies.get(currentCol + 1);
+        }
+        visibleButterfly.setVisibleStatus(Finals.visibleStatus.VISIBLE);
+    }
 
 
-
-
-        public void moveDown () {
-            for (int i = finals.LAST_ROW_INDEX; i > 0; i--) {
-                for (int j = 0; j < finals.COLS; j++) {
-                    if (objectMatrix[i][j] != null && objectMatrix[i - 1][j] != null) {
-                        objectMatrix[i][j].setVisibleStatus(objectMatrix[i - 1][j].getVisibleStatus());
-                        if (objectMatrix[i][j].getVisibleStatus() == Finals.visibleStatus.VISIBLE) {
-                            objectMatrix[i - 1][j].setVisibleStatus(Finals.visibleStatus.INVISIBLE);
-                        }
-
+    public void moveDown() {
+        for (int i = finals.LAST_ROW_INDEX; i > 0; i--) {
+            for (int j = 0; j < finals.COLS; j++) {
+                if (objectMatrix[i][j] != null && objectMatrix[i - 1][j] != null) {
+                    objectMatrix[i][j].setVisibleStatus(objectMatrix[i - 1][j].getVisibleStatus());
+                    if (objectMatrix[i][j].getVisibleStatus() == Finals.visibleStatus.VISIBLE) {
+                        objectMatrix[i - 1][j].setVisibleStatus(Finals.visibleStatus.INVISIBLE);
                     }
+
                 }
             }
         }
+    }
 
 
-    public PlaceInMatrix collision() {
+    public PlaceInMatrix addScoreOrCollision(boolean right, boolean left) {
 
         for (int i = 0; i < finals.COLS; i++) {
             if (objectMatrix[finals.LAST_ROW_INDEX][i] != null &&
-                    objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Net &&
-                    objectMatrix[finals.LAST_ROW_INDEX][i].getVisibleStatus()== Finals.visibleStatus.VISIBLE ){
-                Net net = (Net) objectMatrix[finals.LAST_ROW_INDEX][i];
-                if (visibleButterfly.isCaught(net)) {
-                    deaths++;
-                    return net.getPlace();
+                    objectMatrix[finals.LAST_ROW_INDEX][i].getVisibleStatus() == Finals.visibleStatus.VISIBLE) {
+
+                if (objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Net) {
+                    return checkCollisionAndRemoveLife(i, right, left);
+                }
+                if (objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Flower) {
+                    return checkAddScore(i, right, left);
                 }
             }
         }
@@ -193,23 +198,40 @@ public class GameManager {
     }
 
 
-        public int getLives () {
-            return lives;
+    public PlaceInMatrix checkCollisionAndRemoveLife(int i, boolean right, boolean left) {
+        Net net = (Net) objectMatrix[finals.LAST_ROW_INDEX][i];
+        if (visibleButterfly.isCaughtRight(net, right) || visibleButterfly.isCaught(net) || visibleButterfly.isCaughtLeft(net, left)) {
+            deaths++;
         }
-
-
-
-        public int getDeaths () {
-            return deaths;
-        }
-
-        public void setLives ( int lives){
-            this.lives = lives;
-        }
-
-
-
-        private void updateMatrixAndObjectPlace(GameObjectClass gameObject, PlaceInMatrix place){
-            objectMatrix[place.getRow()][place.getCol()] = gameObject;
-        }
+        return net.getPlace();
     }
+
+    public PlaceInMatrix checkAddScore(int i, boolean right, boolean left) {
+        Flower flower = (Flower) objectMatrix[finals.LAST_ROW_INDEX][i];
+        if (visibleButterfly.isCaughtRight(flower, right) || visibleButterfly.isCaught(flower) || visibleButterfly.isCaughtLeft(flower, left)) {
+            score += flower.getSCORE();
+        }
+        return finals.placeIfScoreIsUP;
+    }
+
+
+    public int getLives() {
+        return lives;
+    }
+
+
+    public int getDeaths() {
+        return deaths;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+
+    private void updateMatrixAndObjectPlace(Obstacle obstacle, PlaceInMatrix place) {
+        objectMatrix[place.getRow()][place.getCol()] = obstacle;
+        obstacle.setPlace(place);
+
+    }
+}

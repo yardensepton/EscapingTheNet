@@ -1,8 +1,7 @@
 package com.example.escapingthenet;
 
-public class Butterfly extends GameObjectClass {
+public class Butterfly extends Obstacle {
     private boolean caught;
-    private boolean coin;
     private int col;
 
     public Butterfly() {
@@ -19,9 +18,18 @@ public class Butterfly extends GameObjectClass {
         this.col = col;
     }
 
-    public boolean isCaught(Net netPlace) {
-        this.caught = netPlace.getPlace().getRow() == finals.LAST_ROW_INDEX &&
-                netPlace.getPlace().getCol() == this.getCol();
+    public boolean isCaught(Obstacle obstacle) {
+        this.caught = obstacle.getPlace().getCol() == this.getCol();
+        return caught;
+    }
+
+    public boolean isCaughtRight(Obstacle obstacle,boolean right) {
+        this.caught = right && obstacle.getPlace().getCol() == this.getCol()+1;
+        return caught;
+    }
+
+    public boolean isCaughtLeft(Obstacle obstacle,boolean left) {
+        this.caught = left && obstacle.getPlace().getCol() == this.getCol()-1;
         return caught;
     }
 
