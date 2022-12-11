@@ -2,7 +2,6 @@ package com.example.escapingthenet;
 
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GameManager {
 
@@ -34,7 +33,6 @@ public class GameManager {
         this.score = score;
     }
 
-    //
     public ArrayList<Butterfly> getButterflies() {
         return butterflies;
     }
@@ -56,14 +54,11 @@ public class GameManager {
     }
 
     public int randObstacle() {
-        Random random = new Random();
-        return random.nextInt(Finals.gameObject.values().length - 1);
+        return finals.random.nextInt(Finals.gameObject.values().length - 1);
     }
 
     public PlaceInMatrix randPlace() {
-        Random random = new Random();
-//        int col = random.nextInt(finals.LAST_COL_INDEX);
-        int col = random.nextInt(finals.COLS);
+        int col = finals.random.nextInt(finals.COLS);
         return new PlaceInMatrix().setPlace(finals.FIRST_INDEX, col);
     }
 
@@ -78,20 +73,16 @@ public class GameManager {
         return new PlaceInMatrix().setPlace(finals.FIRST_INDEX, col);
     }
 
-//    public void randomObject() {
-//        PlaceInMatrix place = randPlace();
-//        fillColWithObjects(place, obstacle);
-//    }
 
+    public void randomObject() {
+        int randObstacle = randObstacle();
+        if (randObstacle == Finals.gameObject.NET.ordinal()) {
+            randomNet();
+        } else {
+            randomFlower();
 
-//    public void whichObjectWasRandomized(PlaceInMatrix randPlace, int randObstacle) {
-//        if (randObstacle == Finals.gameObject.NET.ordinal()) {
-//            randomNet(randPlace);
-//        } else {
-//            randomFlower(randPlace);
-//
-//        }
-//    }
+        }
+    }
 
     /**
      * if the col has already visible objects that fall down - the col can't be randomized
@@ -119,7 +110,6 @@ public class GameManager {
     }
 
     public void randomFlower() {
-//        PlaceInMatrix place = getEmptyCol();
         PlaceInMatrix place = randPlace();
         while (checkIfCanBeRandomized(place)) {
             place = randPlace();
@@ -135,10 +125,10 @@ public class GameManager {
         for (int i = 1; i < finals.ROWS; i++) {
             if (randObstacle == Finals.gameObject.NET.ordinal()) {
                 Net net = new Net();
-                updateMatrixAndObjectPlace(net,new PlaceInMatrix().setPlace(i,randPlace.getCol()));
+                updateMatrixAndObjectPlace(net, new PlaceInMatrix().setPlace(i, randPlace.getCol()));
             } else {
                 Flower flower = new Flower();
-                updateMatrixAndObjectPlace(flower,new PlaceInMatrix().setPlace(i,randPlace.getCol()));
+                updateMatrixAndObjectPlace(flower, new PlaceInMatrix().setPlace(i, randPlace.getCol()));
             }
 
         }

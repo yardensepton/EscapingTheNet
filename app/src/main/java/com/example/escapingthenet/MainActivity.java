@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         loadAllImages();
 
         if (seconds % 2 == 0) {
-            gameManager.randomNet();
+            gameManager.randomObject();
             loadAllImages();
         }
         //do not change the order - caught then move
