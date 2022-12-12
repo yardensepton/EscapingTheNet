@@ -12,9 +12,10 @@ import java.util.Objects;
 
 public class ScoreActivity extends AppCompatActivity {
     public static final String KEY_SCORE = "KEY_SCORE";
-    public static final String KEY_TIME = "KEY_TIME";
-
+    public static final String KEY_SECONDS = "KEY_SECONDS";
+    public static final String KEY_MINUTES = "KEY_MINUTES";
     private MaterialTextView score_LBL_score;
+    private MaterialTextView score_LBL_time;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -24,15 +25,33 @@ public class ScoreActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
 
         findViews();
-
         Intent previousIntent = getIntent();
         int score = previousIntent.getExtras().getInt(KEY_SCORE);
-        int seconds = previousIntent.getExtras().getInt(KEY_TIME);
-        score_LBL_score.setText("You collected "+score+" points"+
-                "You survived for "+seconds+" seconds");
+        int minutes = previousIntent.getExtras().getInt(KEY_MINUTES);
+        int seconds = previousIntent.getExtras().getInt(KEY_SECONDS);
+        String newSeconds = setTime(seconds);
+        String newMinutes = setTime(minutes);
+        score_LBL_time.setText(newMinutes+":"+newSeconds);
+        score_LBL_score.setText("You collected "+score+" jams");
+
     }
 
     private void findViews() {
         score_LBL_score = findViewById(R.id.score_LBL_score);
+        score_LBL_time = findViewById(R.id.score_LBL_time);
     }
+
+    private String setTime(int time){
+        String newTime;
+        if (time<9){
+            newTime= "0"+time;
+        }else{
+            newTime= ""+time;
+        }
+        return newTime;
+    }
+
+
+
+
 }

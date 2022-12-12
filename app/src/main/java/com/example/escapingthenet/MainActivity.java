@@ -2,6 +2,7 @@ package com.example.escapingthenet;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private Timer timer;
     private long startTime = 0;
     private int seconds;
+    private int minutes;
+    private MediaPlayer[] sounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         findViews();
         initViews();
+
+
     }
 
     @Override
@@ -54,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private void gameLoop() {
         long millis = System.currentTimeMillis() - startTime;
         seconds = (int) (millis / finals.DELAY);
+        minutes = seconds/60;
         seconds = seconds % finals.SIXTY;
 
         loadAllImages();
@@ -64,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         }
         //do not change the order - caught then move
         caughtHandler();
-//        gameManager.addLife();
         gameManager.moveDown();
 
         refreshUI();
@@ -99,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         gameManager.initVisibleJellyfish();
         loadAllJellyfishImages();
         glides();
+        initSounds();
 
     }
 
@@ -110,6 +116,14 @@ public class MainActivity extends AppCompatActivity {
                 {findViewById(R.id.main_IMG_pic16), findViewById(R.id.main_IMG_pic17), findViewById(R.id.main_IMG_pic18), findViewById(R.id.main_IMG_pic19), findViewById(R.id.main_IMG_pic20)},
                 {findViewById(R.id.main_IMG_pic21), findViewById(R.id.main_IMG_pic22), findViewById(R.id.main_IMG_pic23), findViewById(R.id.main_IMG_pic24), findViewById(R.id.main_IMG_pic25)},
                 {findViewById(R.id.main_IMG_pic26), findViewById(R.id.main_IMG_pic27), findViewById(R.id.main_IMG_pic28), findViewById(R.id.main_IMG_pic29), findViewById(R.id.main_IMG_pic30)}
+        };
+    }
+    private void initSounds(){
+        sounds = new MediaPlayer[]{
+                MediaPlayer.create(this, R.raw.eating_sound),
+                MediaPlayer.create(this, R.raw.yay),
+                MediaPlayer.create(this, R.raw.spongebob_laugh)
+
         };
     }
 
@@ -173,8 +187,10 @@ public class MainActivity extends AppCompatActivity {
         PlaceInMatrix placeWhereJellyfishCaught = gameManager.addScoreOrCollision(main_BTN_right.isPressed(), main_BTN_left.isPressed());
         if (placeWhereJellyfishCaught != null && placeWhereJellyfishCaught.equals(finals.placeIfScoreIsUP)) {
             main_TXT_score.setText("" + gameManager.getScore());
-        } else if (placeWhereJellyfishCaught != null ) {
+            sounds[0].start();
+        } else if (placeWhereJellyfishCaught != null) {
             obstaclesPicturesMatrix[placeWhereJellyfishCaught.getRow()][placeWhereJellyfishCaught.getCol()].setImageResource(finals.CAUGHT_PIC);
+            sounds[2].start();
             MySignal.getInstance().toast(finals.CAUGHT_MESSAGE);
             MySignal.getInstance().vibrate();
         }
@@ -184,23 +200,40 @@ public class MainActivity extends AppCompatActivity {
         if (gameManager.lost()) {
             stopTimer();
             openScorePage();
-        }
-        else if (gameManager.getDeaths() <= gameManager.getLives()) {
-//            for (int i = 0; i < gameManager.getDeaths(); i++) {
-//                game_IMG_hearts[i].setVisibility(View.INVISIBLE);
-//            }
-            for (int i = 0; i < gameManager.getDeaths(); i++) {
-                game_IMG_hearts[i].setVisibility(View.INVISIBLE);
+        } else {
+            int before = countVisibleLives();
+            int current = 0;
+            for (int i = 0; i < finals.LIVES; i++) {
+                if (current < gameManager.getDeaths()) {
+                    game_IMG_hearts[current].setVisibility(View.INVISIBLE);
+                } else {
+                    game_IMG_hearts[i].setVisibility(View.VISIBLE);
+                }
+                current++;
+            }
+            int after = countVisibleLives();
+            if (after>before){
+                sounds[1].start();
             }
         }
+    }
 
 
+    private int countVisibleLives() {
+        int amount = 0;
+        for (ShapeableImageView game_img_heart : game_IMG_hearts) {
+            if (game_img_heart.getVisibility() == View.VISIBLE) {
+                amount++;
+            }
+        }
+        return amount;
     }
 
     private void openScorePage() {
         Intent intent = new Intent(this, ScoreActivity.class);
         intent.putExtra(ScoreActivity.KEY_SCORE, gameManager.getScore());
-        intent.putExtra(ScoreActivity.KEY_TIME,seconds);
+        intent.putExtra(ScoreActivity.KEY_MINUTES, minutes);
+        intent.putExtra(ScoreActivity.KEY_SECONDS, seconds);
         startActivity(intent);
         finish();
     }

@@ -1,8 +1,6 @@
 package com.example.escapingthenet;
 
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 public class GameManager {
@@ -27,7 +25,7 @@ public class GameManager {
 
     }
 
-    public void setDeaths() {
+    public void died() {
         if (deaths < finals.LIVES) {
             deaths++;
         }
@@ -189,7 +187,7 @@ public class GameManager {
     public PlaceInMatrix checkCollisionAndRemoveLife(int i, boolean right, boolean left) {
         Net net = (Net) objectMatrix[finals.LAST_ROW_INDEX][i];
         if (visibleJellyfish.isCaughtRight(net, right) || visibleJellyfish.isCaught(net) || visibleJellyfish.isCaughtLeft(net, left)) {
-            setDeaths();
+            died();
             return net.getPlace();
         }
         return null;
@@ -199,16 +197,14 @@ public class GameManager {
         Jam jam = (Jam) objectMatrix[finals.LAST_ROW_INDEX][i];
         if (visibleJellyfish.isCaughtRight(jam, right) || visibleJellyfish.isCaught(jam) || visibleJellyfish.isCaughtLeft(jam, left)) {
             score += jam.getSCORE();
-            addLifeAndRemoveDeath();
-            Log.i("lives ", "" + lives);
-            Log.i("deaths ", "" + deaths);
+            removeDeath();
             return finals.placeIfScoreIsUP;
         }
         return null;
     }
 
-    public void addLifeAndRemoveDeath() {
-        if (deaths > 0 && score % finals.SCORE_TO_ADD_LIFE == 0) {
+    public void removeDeath() {
+        if (deaths<=finals.LIVES && deaths > 0 && score % finals.SCORE_TO_ADD_LIFE == 0) {
             deaths--;
         }
 

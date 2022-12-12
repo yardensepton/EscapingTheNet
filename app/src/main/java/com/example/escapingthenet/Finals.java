@@ -20,10 +20,10 @@ public class Finals {
     public final int NET_PIC = R.drawable.img_net;
     public final int JAM_PIC = R.drawable.jam;
     public final int DELAY = 1000;
-    public final int VIBRATE_MILLISECONDS = 500;
+    public final int VIBRATE_MILLISECONDS = 200;
     public final int LIVES = 3;
     public final int SIXTY = 60;
-    public final String CAUGHT_MESSAGE = "Caught";
+    public final String CAUGHT_MESSAGE = "HAHA I caught you!";
     public final String SCORE_MESSAGE = "Yay your score is ";
     public Random random = new Random();
     public final PlaceInMatrix placeIfScoreIsUP = new PlaceInMatrix().setPlace(-1,-1);

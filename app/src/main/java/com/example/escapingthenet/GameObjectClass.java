@@ -19,9 +19,8 @@ public abstract class GameObjectClass {
         return imageRes;
     }
 
-    public GameObjectClass setImageRes(int imageRes) {
+    public void setImageRes(int imageRes) {
         this.imageRes = imageRes;
-        return this;
     }
 
     public Finals.visibleStatus getVisibleStatus() {
