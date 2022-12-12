@@ -1,6 +1,7 @@
 package com.example.escapingthenet;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Finals finals;
     private Timer timer;
     private long startTime = 0;
+    private int seconds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void gameLoop() {
         long millis = System.currentTimeMillis() - startTime;
-        int seconds = (int) (millis / finals.DELAY);
+        seconds = (int) (millis / finals.DELAY);
         seconds = seconds % finals.SIXTY;
 
         loadAllImages();
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         }
         //do not change the order - caught then move
         caughtHandler();
+//        gameManager.addLife();
         gameManager.moveDown();
 
         refreshUI();
@@ -84,13 +87,13 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint({"CheckResult", "SetTextI18n"})
     private void findViews() {
-        game_IMG_hearts = new ShapeableImageView[]{findViewById(R.id.game_IMG_heart1), findViewById(R.id.game_IMG_heart2), findViewById(R.id.game_IMG_heart3)};
-        gameManager = new GameManager(game_IMG_hearts.length);
         finals = new Finals();
+        game_IMG_hearts = new ShapeableImageView[]{findViewById(R.id.game_IMG_heart1), findViewById(R.id.game_IMG_heart2), findViewById(R.id.game_IMG_heart3)};
+        gameManager = new GameManager(finals.LIVES);
         main_BTN_right = findViewById(R.id.main_BTN_right);
         main_BTN_left = findViewById(R.id.main_BTN_left);
         main_TXT_score = findViewById(R.id.main_TXT_score);
-        main_TXT_score.setText(""+finals.FIRST_INDEX);
+        main_TXT_score.setText("" + finals.FIRST_INDEX);
         initObstacleMatrix();
         initJellyfishArray();
         gameManager.initVisibleJellyfish();
@@ -169,21 +172,35 @@ public class MainActivity extends AppCompatActivity {
     private void caughtHandler() {
         PlaceInMatrix placeWhereJellyfishCaught = gameManager.addScoreOrCollision(main_BTN_right.isPressed(), main_BTN_left.isPressed());
         if (placeWhereJellyfishCaught != null && placeWhereJellyfishCaught.equals(finals.placeIfScoreIsUP)) {
-            main_TXT_score.setText(""+gameManager.getScore());
-        }
-        else if (placeWhereJellyfishCaught != null) {
+            main_TXT_score.setText("" + gameManager.getScore());
+        } else if (placeWhereJellyfishCaught != null ) {//not good!
             MySignal.getInstance().toast(finals.CAUGHT_MESSAGE);
             MySignal.getInstance().vibrate();
         }
     }
 
     private void refreshUI() {
-        if (gameManager.getDeaths() <= gameManager.getLives()) {
+        if (gameManager.lost()) {
+            stopTimer();
+            openScorePage();
+        }
+        else if (gameManager.getDeaths() <= gameManager.getLives()) {
+//            for (int i = 0; i < gameManager.getDeaths(); i++) {
+//                game_IMG_hearts[i].setVisibility(View.INVISIBLE);
+//            }
             for (int i = 0; i < gameManager.getDeaths(); i++) {
                 game_IMG_hearts[i].setVisibility(View.INVISIBLE);
-
             }
         }
 
+
+    }
+
+    private void openScorePage() {
+        Intent intent = new Intent(this, ScoreActivity.class);
+        intent.putExtra(ScoreActivity.KEY_SCORE, gameManager.getScore());
+        intent.putExtra(ScoreActivity.KEY_TIME,seconds);
+        startActivity(intent);
+        finish();
     }
 }

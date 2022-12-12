@@ -4,16 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".StartPageActivity">
+    tools:context=".StartPageActivity"
+    android:background="@drawable/gradient_color">
 
     <androidx.appcompat.widget.AppCompatCheckedTextView
         android:id="@+id/start_TXT_hello"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/start_IMG_grass"
         android:layout_centerVertical="true"
         android:gravity="center"
         android:textSize="40sp"
-        android:textAlignment="center">
+        android:textAlignment="center"
+        android:translationZ="2dp">
 
     </androidx.appcompat.widget.AppCompatCheckedTextView>
 
@@ -30,19 +33,32 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/start_IMG_grass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:layout_alignParentBottom="true"
         android:adjustViewBounds="true"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:translationZ="1dp">
     </androidx.appcompat.widget.AppCompatImageView>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/start_IMG_icon"
-        android:layout_width="292dp"
-        android:layout_height="143dp"
+        android:layout_width="400dp"
+        android:layout_height="500dp"
         android:adjustViewBounds="true"
-        android:layout_above="@id/start_TXT_hello">
+        android:layout_centerHorizontal="true"
+        android:translationZ="-1dp">
+
+    </androidx.appcompat.widget.AppCompatImageView>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/start_IMG_icon2"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:adjustViewBounds="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:translationZ="2dp">
 
     </androidx.appcompat.widget.AppCompatImageView>
 </RelativeLayout>
