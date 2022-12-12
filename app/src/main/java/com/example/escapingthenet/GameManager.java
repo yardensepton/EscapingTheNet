@@ -1,6 +1,7 @@
 package com.example.escapingthenet;
 
 
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,12 @@ public class GameManager {
         visibleJellyfish = new Jellyfish();
         setPlacesJellyfish();
 
+    }
+
+    public void setDeaths() {
+        if (deaths < finals.LIVES) {
+            deaths++;
+        }
     }
 
     public int getScore() {
@@ -123,6 +130,9 @@ public class GameManager {
         }
     }
 
+    public boolean lost() {
+        return deaths == finals.LIVES;
+    }
 
     public void moveObjectLeft() {
         visibleJellyfish.setVisibleStatus(Finals.visibleStatus.INVISIBLE);
@@ -167,8 +177,7 @@ public class GameManager {
 
                 if (objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Net) {
                     return checkCollisionAndRemoveLife(i, right, left);
-                }
-                else if (objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Jam) {
+                } else if (objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Jam) {
                     return checkAddScore(i, right, left);
                 }
             }
@@ -180,19 +189,30 @@ public class GameManager {
     public PlaceInMatrix checkCollisionAndRemoveLife(int i, boolean right, boolean left) {
         Net net = (Net) objectMatrix[finals.LAST_ROW_INDEX][i];
         if (visibleJellyfish.isCaughtRight(net, right) || visibleJellyfish.isCaught(net) || visibleJellyfish.isCaughtLeft(net, left)) {
-            deaths++;
+            setDeaths();
+            return net.getPlace();
         }
-        return net.getPlace();
+        return null;
     }
 
     public PlaceInMatrix checkAddScore(int i, boolean right, boolean left) {
         Jam jam = (Jam) objectMatrix[finals.LAST_ROW_INDEX][i];
         if (visibleJellyfish.isCaughtRight(jam, right) || visibleJellyfish.isCaught(jam) || visibleJellyfish.isCaughtLeft(jam, left)) {
             score += jam.getSCORE();
+            addLifeAndRemoveDeath();
+            Log.i("lives ", "" + lives);
+            Log.i("deaths ", "" + deaths);
+            return finals.placeIfScoreIsUP;
         }
-        return finals.placeIfScoreIsUP;
+        return null;
     }
 
+    public void addLifeAndRemoveDeath() {
+        if (deaths > 0 && score % finals.SCORE_TO_ADD_LIFE == 0) {
+            deaths--;
+        }
+
+    }
 
     public int getLives() {
         return lives;
