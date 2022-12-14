@@ -5,60 +5,102 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".StartPageActivity"
-    android:background="@drawable/gradient_color">
+    android:background="@drawable/gradient_color"
+    >
 
     <androidx.appcompat.widget.AppCompatCheckedTextView
         android:id="@+id/start_TXT_hello"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/start_IMG_grass"
+        android:fontFamily="@font/title_font"
+        android:layout_above="@id/start_IMG_house"
+        android:layout_marginBottom="170dp"
         android:layout_centerVertical="true"
         android:gravity="center"
-        android:textSize="40sp"
+        android:textSize="70sp"
         android:textAlignment="center"
         android:translationZ="2dp">
 
     </androidx.appcompat.widget.AppCompatCheckedTextView>
 
     <com.google.android.material.button.MaterialButton
+        app:backgroundTint="@android:color/holo_blue_dark"
+        android:fontFamily="@font/title_font"
         android:id="@+id/start_BTN_play"
         android:layout_width="wrap_content"
+        android:layout_marginTop="-150dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:textSize="20sp"
+        app:cornerRadius="40dp"
+        android:translationZ="5dp"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
         android:text="play"
         android:layout_below="@id/start_TXT_hello"
         >
     </com.google.android.material.button.MaterialButton>
 
+    <com.google.android.material.button.MaterialButton
+        app:backgroundTint="@android:color/holo_blue_dark"
+        android:fontFamily="@font/title_font"
+        android:id="@+id/start_BTN_playSensors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        app:cornerRadius="40dp"
+        android:textSize="20sp"
+        android:translationZ="5dp"
+        android:layout_below="@id/start_BTN_play"
+        android:text="play with sensors"
+
+        >
+    </com.google.android.material.button.MaterialButton>
+
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/start_IMG_grass"
+        android:id="@+id/start_IMG_house"
         android:layout_width="400dp"
         android:layout_height="400dp"
         android:layout_alignParentBottom="true"
         android:adjustViewBounds="true"
         android:visibility="visible"
-        android:translationZ="1dp">
+        android:translationZ="3dp">
     </androidx.appcompat.widget.AppCompatImageView>
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/start_IMG_icon"
+        android:id="@+id/start_IMG_jellyfish"
         android:layout_width="400dp"
         android:layout_height="500dp"
         android:adjustViewBounds="true"
         android:layout_centerHorizontal="true"
-        android:translationZ="-1dp">
+        android:translationZ="2.5dp">
 
     </androidx.appcompat.widget.AppCompatImageView>
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/start_IMG_icon2"
+        android:id="@+id/start_IMG_spongebob"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:adjustViewBounds="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:translationZ="2dp">
+        android:translationZ="4dp">
 
     </androidx.appcompat.widget.AppCompatImageView>
+
+    <ToggleButton
+        android:id="@+id/start_TGL_difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:cornerRadius="40dp"
+        android:translationZ="5dp"
+        android:fontFamily="@font/title_font"
+        android:textSize="20sp"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        android:textOff="EASY"
+        android:textOn="HARD"
+        android:layout_below="@id/start_BTN_playSensors">
+
+    </ToggleButton>
 </RelativeLayout>

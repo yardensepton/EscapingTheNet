@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.MapView;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.Objects;
@@ -16,6 +17,7 @@ public class ScoreActivity extends AppCompatActivity {
     public static final String KEY_MINUTES = "KEY_MINUTES";
     private MaterialTextView score_LBL_score;
     private MaterialTextView score_LBL_time;
+    MapView mapView;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -50,6 +52,8 @@ public class ScoreActivity extends AppCompatActivity {
         }
         return newTime;
     }
+
+
 
 
 

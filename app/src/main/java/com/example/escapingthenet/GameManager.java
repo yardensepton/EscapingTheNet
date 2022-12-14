@@ -84,7 +84,7 @@ public class GameManager {
     public boolean checkIfCanBeRandomized(PlaceInMatrix place) {
         for (int i = 0; i < finals.LAST_ROW_INDEX; i++) {
             if (objectMatrix[i][place.getCol()] != null) {
-                if (objectMatrix[i][place.getCol()].getVisibleStatus() != Finals.visibleStatus.INVISIBLE) {
+                if (objectMatrix[i][place.getCol()].getVisibleStatus() == Finals.visibleStatus.VISIBLE) {
                     return true;
                 }
             }

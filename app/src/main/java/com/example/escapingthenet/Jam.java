@@ -3,7 +3,7 @@ package com.example.escapingthenet;
 public class Jam extends Obstacle {
 
 
-    private final int SCORE = 10;
+    private final int SCORE = 1;
 
 
     public Jam() {

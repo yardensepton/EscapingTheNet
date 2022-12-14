@@ -1,24 +1,40 @@
 package com.example.escapingthenet;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.media.audiofx.Equalizer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
+    public static final String DIFFICULTY = "DIFFICULTY";
+    private boolean isPermissionGranted;
     private ExtendedFloatingActionButton main_BTN_right;
     private ExtendedFloatingActionButton main_BTN_left;
     private ShapeableImageView[] game_IMG_hearts;
@@ -31,7 +47,12 @@ public class MainActivity extends AppCompatActivity {
     private long startTime = 0;
     private int seconds;
     private int minutes;
+    int delay;
     private MediaPlayer[] sounds;
+    private static final String GAME_TIME = "GAME_TIME";
+    private static final String NUMBER_JAMS_COLLECTED = "NUMBER_JAMS_COLLECTED";
+    GoogleMap googleMap;
+    MySPV2 mySPV2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +60,10 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_main);
         findViews();
+        initDelay();
         initViews();
-
+        mySPV2 = new MySPV2(this);
+        checkMyPermission();
 
     }
 
@@ -56,9 +79,10 @@ public class MainActivity extends AppCompatActivity {
         stopTimer();
     }
 
+
     private void gameLoop() {
         long millis = System.currentTimeMillis() - startTime;
-        seconds = (int) (millis / finals.DELAY);
+        seconds = (int) (millis / finals.DELAY_EASY);
         minutes = seconds/60;
         seconds = seconds % finals.SIXTY;
 
@@ -68,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             gameManager.randomObject();
             loadAllImages();
         }
+
         //do not change the order - caught then move
         caughtHandler();
         gameManager.moveDown();
@@ -86,7 +111,8 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 runOnUiThread(() -> gameLoop());
             }
-        }, finals.DELAY, finals.DELAY);
+        }, delay, delay);
+
         startTime = System.currentTimeMillis();
     }
 
@@ -106,6 +132,17 @@ public class MainActivity extends AppCompatActivity {
         glides();
         initSounds();
 
+    }
+
+    private void initDelay(){
+        Intent previousIntent = getIntent();
+        String difficulty = previousIntent.getExtras().getString(DIFFICULTY);
+        if (difficulty.equalsIgnoreCase(finals.EASY)){
+            delay = finals.DELAY_EASY;
+        }
+        else{
+            delay = finals.DELAY_HARD;
+        }
     }
 
     private void initObstacleMatrix() {
@@ -229,12 +266,54 @@ public class MainActivity extends AppCompatActivity {
         return amount;
     }
 
+
+    private void saveToSharedP(){
+        mySPV2.putInt(NUMBER_JAMS_COLLECTED, gameManager.getScore());
+        mySPV2.putString(GAME_TIME, setTime(minutes)+":"+setTime(seconds));
+    }
+
+    private void checkMyPermission(){
+        Dexter.withContext(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
+            @Override
+            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                MySignal.getInstance().toast(finals.PERMISSION);
+                isPermissionGranted = true;
+            }
+
+            @Override
+            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package",getPackageName(),"");
+                intent.setData(uri);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                permissionToken.continuePermissionRequest();
+            }
+        }).check();
+
+    }
     private void openScorePage() {
-        Intent intent = new Intent(this, ScoreActivity.class);
+        Intent intent = new Intent( this, ScoreActivity.class);
         intent.putExtra(ScoreActivity.KEY_SCORE, gameManager.getScore());
         intent.putExtra(ScoreActivity.KEY_MINUTES, minutes);
         intent.putExtra(ScoreActivity.KEY_SECONDS, seconds);
         startActivity(intent);
         finish();
     }
+
+    private String setTime(int time){
+        String newTime;
+        if (time<9){
+            newTime= "0"+time;
+        }else{
+            newTime= ""+time;
+        }
+        return newTime;
+    }
+
+
 }
