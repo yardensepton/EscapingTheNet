@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:fontFamily="@font/some_time_later"
         android:textColor="@color/black"
         android:textSize="40sp"
         android:textStyle="bold" />
@@ -18,7 +19,7 @@
         android:id="@+id/score_LBL_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/score_LBL_time"
         android:textColor="@color/black"
         android:textSize="40sp"

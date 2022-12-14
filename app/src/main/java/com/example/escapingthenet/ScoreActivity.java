@@ -1,10 +1,10 @@
 package com.example.escapingthenet;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.MapView;
 import com.google.android.material.textview.MaterialTextView;
@@ -31,10 +31,11 @@ public class ScoreActivity extends AppCompatActivity {
         int score = previousIntent.getExtras().getInt(KEY_SCORE);
         int minutes = previousIntent.getExtras().getInt(KEY_MINUTES);
         int seconds = previousIntent.getExtras().getInt(KEY_SECONDS);
-        String newSeconds = setTime(seconds);
-        String newMinutes = setTime(minutes);
-        score_LBL_time.setText(newMinutes+":"+newSeconds);
-        score_LBL_score.setText("You collected "+score+" jams");
+        boolean sec = true;
+        String newSeconds = setTime(seconds, sec);
+        String newMinutes = setTime(minutes, !sec);
+        score_LBL_time.setText(printTime(newMinutes,newSeconds));
+        score_LBL_score.setText("You collected " + score + " jams");
 
     }
 
@@ -43,19 +44,41 @@ public class ScoreActivity extends AppCompatActivity {
         score_LBL_time = findViewById(R.id.score_LBL_time);
     }
 
-    private String setTime(int time){
-        String newTime;
-        if (time<9){
-            newTime= "0"+time;
-        }else{
-            newTime= ""+time;
+//    private String setTime(int time){
+//        String newTime;
+//        if (time<9){
+//            newTime= "0"+time;
+//        }else{
+//            newTime= ""+time;
+//        }
+//        return newTime;
+//    }
+
+
+    private String setTime(int time, boolean sec) {
+        if (time == 0) { //if there are no minutes
+            return "";
+        } else if (time == 1 && sec) {//if there is one second
+            return time + " second";
+        } else if (time == 1) {//if there is one second
+            return time + " minute";
+        }else if (time>1 && sec){
+            return time + " seconds";
         }
-        return newTime;
+        return time + " minutes";
     }
 
-
-
-
+    private String printTime(String minutes,String seconds){
+        if (minutes.isEmpty()){
+            return seconds + " later...";
+        }
+        if (seconds.isEmpty()){
+            return minutes + " later...";
+        }
+        else{
+            return minutes + " and " +seconds+ " later...";
+        }
+    }
 
 
 }
