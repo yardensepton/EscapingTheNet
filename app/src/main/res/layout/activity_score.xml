@@ -3,37 +3,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScoreActivity">
+    tools:context=".ScoreActivity"
+    android:background="@drawable/gradient_color"
+    >
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/score_LBL_time"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/some_time_later"
+        android:maxLines="2"
+        android:text="time"
         android:textColor="@color/black"
-        android:textSize="40sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/score_LBL_score"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_below="@id/score_LBL_time"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/some_time_later"
+        android:maxLines="2"
+        android:text="score"
         android:textColor="@color/black"
-        android:textSize="40sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/score_LBL_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="location"
-        android:layout_above="@id/score_LBL_time"
-        android:textColor="@color/black"
-        android:textSize="40sp"
-        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/score_LBL_score"
+        android:orientation="vertical">
+        <FrameLayout
+            android:id="@+id/panel_LAY_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="32dp"
+            android:scrollbars="horizontal"
+
+            />
+
+        <FrameLayout
+            android:id="@+id/panel_LAY_map"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="32dp" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 
 

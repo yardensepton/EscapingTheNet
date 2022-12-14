@@ -31,7 +31,7 @@ public class Fragment_List extends Fragment {
         findViews(view);
         initViews();
 
-        changeTitle("List Page");
+        changeTitle("Top Ten Scores");
 
         return view;
     }

@@ -11,7 +11,9 @@ public class GameManager {
     private int lives;
     private Jellyfish visibleJellyfish;
     private ArrayList<Jellyfish> jellyfishArrayList;
-    private int score = 0;
+//    private int score = 0;
+//    private String userName;
+    private Player player;
 
     public GameManager() {
     }
@@ -22,8 +24,17 @@ public class GameManager {
         jellyfishArrayList = DataManager.getJellyfishArrayList();
         visibleJellyfish = new Jellyfish();
         setPlacesJellyfish();
+        this.player = new Player();
 
     }
+
+//    public String getUserName() {
+//        return userName;
+//    }
+//
+//    public void setUserName(String userName) {
+//        this.userName = userName;
+//    }
 
     public void died() {
         if (deaths < finals.LIVES) {
@@ -31,13 +42,13 @@ public class GameManager {
         }
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
+//    public int getScore() {
+//        return score;
+//    }
+//
+//    public void setScore(int score) {
+//        this.score = score;
+//    }
 
     public ArrayList<Jellyfish> getJellyfishArrayList() {
         return jellyfishArrayList;
@@ -196,7 +207,8 @@ public class GameManager {
     public PlaceInMatrix checkAddScore(int i, boolean right, boolean left) {
         Jam jam = (Jam) objectMatrix[finals.LAST_ROW_INDEX][i];
         if (visibleJellyfish.isCaughtRight(jam, right) || visibleJellyfish.isCaught(jam) || visibleJellyfish.isCaughtLeft(jam, left)) {
-            score += jam.getSCORE();
+//            score += jam.getSCORE();
+            player.setScore(player.getScore()+ jam.getSCORE());
             removeDeath();
             return finals.placeIfScoreIsUP;
         }
@@ -204,7 +216,7 @@ public class GameManager {
     }
 
     public void removeDeath() {
-        if (deaths<=finals.LIVES && deaths > 0 && score % finals.SCORE_TO_ADD_LIFE == 0) {
+        if (deaths<=finals.LIVES && deaths > 0 && player.getScore() % finals.SCORE_TO_ADD_LIFE == 0) {
             deaths--;
         }
 
@@ -228,5 +240,13 @@ public class GameManager {
         objectMatrix[place.getRow()][place.getCol()] = obstacle;
         obstacle.setPlace(place);
 
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

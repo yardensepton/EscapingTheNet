@@ -1,39 +1,33 @@
 package com.example.escapingthenet;
 
-import android.Manifest;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.media.audiofx.Equalizer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
+
 
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
     public static final String DIFFICULTY = "DIFFICULTY";
+    public static final String USER_NAME = "NAME";
+    public static final String BUTTONS = "BUTTONS";
+    public static final String SENSORS = "SENSORS";
+    private static final String GAME_TIME = "GAME_TIME";
+    private static final String NUMBER_JAMS_COLLECTED = "NUMBER_JAMS_COLLECTED";
+    private MovesDetector movesDetector;
     private boolean isPermissionGranted;
     private ExtendedFloatingActionButton main_BTN_right;
     private ExtendedFloatingActionButton main_BTN_left;
@@ -48,10 +42,8 @@ public class MainActivity extends AppCompatActivity  {
     private int seconds;
     private int minutes;
     int delay;
+    Intent previousIntent;
     private MediaPlayer[] sounds;
-    private static final String GAME_TIME = "GAME_TIME";
-    private static final String NUMBER_JAMS_COLLECTED = "NUMBER_JAMS_COLLECTED";
-    GoogleMap googleMap;
     MySPV2 mySPV2;
 
     @Override
@@ -59,13 +51,33 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_main);
+        previousIntent = getIntent();
         findViews();
         initDelay();
         initViews();
+        movesDetector = new MovesDetector(this, callBack_moves);
+        initButtonsOrSensors();
         mySPV2 = new MySPV2(this);
-        checkMyPermission();
-
+//        checkMyPermission();
+//        gameManager.setUserName(previousIntent.getExtras().getString(USER_NAME));
+        gameManager.getPlayer().setName(previousIntent.getExtras().getString(USER_NAME));
     }
+
+
+    private MovesDetector.CallBack_moves callBack_moves = new MovesDetector.CallBack_moves() {
+
+        @Override
+        public void moveLeft() {
+            gameManager.moveObjectLeft();
+            loadAllJellyfishImages();
+        }
+
+        @Override
+        public void moveRight() {
+            gameManager.moveObjectRight();
+            loadAllJellyfishImages();
+        }
+    };
 
     @Override
     protected void onResume() {
@@ -76,14 +88,16 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onStop() {
         super.onStop();
+        movesDetector.stop();
         stopTimer();
+
     }
 
 
     private void gameLoop() {
         long millis = System.currentTimeMillis() - startTime;
         seconds = (int) (millis / finals.DELAY_EASY);
-        minutes = seconds/60;
+        minutes = seconds / 60;
         seconds = seconds % finals.SIXTY;
 
         loadAllImages();
@@ -132,16 +146,28 @@ public class MainActivity extends AppCompatActivity  {
         glides();
         initSounds();
 
+
     }
 
-    private void initDelay(){
-        Intent previousIntent = getIntent();
+    private void initDelay() {
         String difficulty = previousIntent.getExtras().getString(DIFFICULTY);
-        if (difficulty.equalsIgnoreCase(finals.EASY)){
+        if (difficulty.equalsIgnoreCase(finals.EASY)) {
             delay = finals.DELAY_EASY;
-        }
-        else{
+        } else {
             delay = finals.DELAY_HARD;
+        }
+    }
+
+    private void initButtonsOrSensors() {
+        String sensors = previousIntent.getExtras().getString(SENSORS);
+        if (Objects.equals(sensors, "")) {
+            main_BTN_right.setVisibility(View.VISIBLE);
+            main_BTN_left.setVisibility(View.VISIBLE);
+        } else {
+            main_BTN_right.setVisibility(View.INVISIBLE);
+            main_BTN_left.setVisibility(View.INVISIBLE);
+            movesDetector.start();
+
         }
     }
 
@@ -155,7 +181,8 @@ public class MainActivity extends AppCompatActivity  {
                 {findViewById(R.id.main_IMG_pic26), findViewById(R.id.main_IMG_pic27), findViewById(R.id.main_IMG_pic28), findViewById(R.id.main_IMG_pic29), findViewById(R.id.main_IMG_pic30)}
         };
     }
-    private void initSounds(){
+
+    private void initSounds() {
         sounds = new MediaPlayer[]{
                 MediaPlayer.create(this, R.raw.eating_sound),
                 MediaPlayer.create(this, R.raw.yay),
@@ -223,7 +250,8 @@ public class MainActivity extends AppCompatActivity  {
     private void caughtHandler() {
         PlaceInMatrix placeWhereJellyfishCaught = gameManager.addScoreOrCollision(main_BTN_right.isPressed(), main_BTN_left.isPressed());
         if (placeWhereJellyfishCaught != null && placeWhereJellyfishCaught.equals(finals.placeIfScoreIsUP)) {
-            main_TXT_score.setText("" + gameManager.getScore());
+//            main_TXT_score.setText("" + gameManager.getScore());
+            main_TXT_score.setText("" + gameManager.getPlayer().getScore());
             sounds[0].start();
         } else if (placeWhereJellyfishCaught != null) {
             obstaclesPicturesMatrix[placeWhereJellyfishCaught.getRow()][placeWhereJellyfishCaught.getCol()].setImageResource(finals.CAUGHT_PIC);
@@ -249,7 +277,7 @@ public class MainActivity extends AppCompatActivity  {
                 current++;
             }
             int after = countVisibleLives();
-            if (after>before){
+            if (after > before) {
                 sounds[1].start();
             }
         }
@@ -267,50 +295,54 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
-    private void saveToSharedP(){
-        mySPV2.putInt(NUMBER_JAMS_COLLECTED, gameManager.getScore());
-        mySPV2.putString(GAME_TIME, setTime(minutes)+":"+setTime(seconds));
+    private void saveToSharedP() {
+        mySPV2.putInt(NUMBER_JAMS_COLLECTED, gameManager.getPlayer().getScore());
+        mySPV2.putString(USER_NAME, gameManager.getPlayer().getName());
+        mySPV2.putString(GAME_TIME, setTime(minutes) + ":" + setTime(seconds));
     }
+//
+//    private void checkMyPermission() {
+//        Dexter.withContext(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
+//            @Override
+//            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+//                MySignal.getInstance().toast(finals.PERMISSION);
+//                isPermissionGranted = true;
+//            }
+//
+//            @Override
+//            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+//                Intent intent = new Intent();
+//                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//                Uri uri = Uri.fromParts("package", getPackageName(), "");
+//                intent.setData(uri);
+//                startActivity(intent);
+//            }
+//
+//            @Override
+//            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+//                permissionToken.continuePermissionRequest();
+//            }
+//        }).check();
+//
+//    }
 
-    private void checkMyPermission(){
-        Dexter.withContext(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
-            @Override
-            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                MySignal.getInstance().toast(finals.PERMISSION);
-                isPermissionGranted = true;
-            }
-
-            @Override
-            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package",getPackageName(),"");
-                intent.setData(uri);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-                permissionToken.continuePermissionRequest();
-            }
-        }).check();
-
-    }
     private void openScorePage() {
-        Intent intent = new Intent( this, ScoreActivity.class);
-        intent.putExtra(ScoreActivity.KEY_SCORE, gameManager.getScore());
+        Intent intent = new Intent(this, ScoreActivity.class);
+        intent.putExtra(ScoreActivity.KEY_SCORE, gameManager.getPlayer().getScore());
         intent.putExtra(ScoreActivity.KEY_MINUTES, minutes);
         intent.putExtra(ScoreActivity.KEY_SECONDS, seconds);
+        intent.putExtra(ScoreActivity.KEY_NAME,gameManager.getPlayer().getName());
         startActivity(intent);
+        saveToSharedP();
         finish();
     }
 
-    private String setTime(int time){
+    private String setTime(int time) {
         String newTime;
-        if (time<9){
-            newTime= "0"+time;
-        }else{
-            newTime= ""+time;
+        if (time < 9) {
+            newTime = "0" + time;
+        } else {
+            newTime = "" + time;
         }
         return newTime;
     }
