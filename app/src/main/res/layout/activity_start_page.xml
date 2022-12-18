@@ -17,6 +17,65 @@
         android:translationZ="2.5dp">
 
     </androidx.appcompat.widget.AppCompatImageView>
+    <androidx.appcompat.widget.AppCompatCheckedTextView
+        android:id="@+id/start_TXT_hello"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/yellowpeach"
+        android:layout_above="@id/start_TGL_difficulty"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textSize="70sp"
+        android:textAlignment="center"
+        android:translationZ="2dp">
+
+    </androidx.appcompat.widget.AppCompatCheckedTextView>
+
+    <com.google.android.material.button.MaterialButton
+        app:backgroundTint="@android:color/holo_blue_dark"
+        android:fontFamily="@font/roughfont"
+        android:id="@+id/start_BTN_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        app:cornerRadius="40dp"
+        android:translationZ="5dp"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:text="Buttons"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/start_TGL_difficulty"
+        >
+    </com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        app:backgroundTint="@android:color/holo_blue_dark"
+        android:fontFamily="@font/roughfont"
+        android:id="@+id/start_BTN_playSensors"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/start_TGL_difficulty"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        app:cornerRadius="40dp"
+        android:textSize="20sp"
+        android:translationZ="5dp"
+      android:layout_alignParentRight="true"
+        android:text="Sensors"
+
+        >
+    </com.google.android.material.button.MaterialButton>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/start_IMG_house"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="100dp"
+        android:adjustViewBounds="true"
+        android:translationZ="3dp"
+        android:visibility="visible" />
 
 
     <EditText
