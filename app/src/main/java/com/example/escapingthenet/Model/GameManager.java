@@ -1,5 +1,8 @@
-package com.example.escapingthenet;
+package com.example.escapingthenet.Model;
 
+
+import com.example.escapingthenet.DataManager;
+import com.example.escapingthenet.Finals;
 
 import java.util.ArrayList;
 
@@ -11,8 +14,6 @@ public class GameManager {
     private int lives;
     private Jellyfish visibleJellyfish;
     private ArrayList<Jellyfish> jellyfishArrayList;
-//    private int score = 0;
-//    private String userName;
     private Player player;
 
     public GameManager() {
@@ -28,13 +29,6 @@ public class GameManager {
 
     }
 
-//    public String getUserName() {
-//        return userName;
-//    }
-//
-//    public void setUserName(String userName) {
-//        this.userName = userName;
-//    }
 
     public void died() {
         if (deaths < finals.LIVES) {
@@ -42,13 +36,6 @@ public class GameManager {
         }
     }
 
-//    public int getScore() {
-//        return score;
-//    }
-//
-//    public void setScore(int score) {
-//        this.score = score;
-//    }
 
     public ArrayList<Jellyfish> getJellyfishArrayList() {
         return jellyfishArrayList;
@@ -207,8 +194,7 @@ public class GameManager {
     public PlaceInMatrix checkAddScore(int i, boolean right, boolean left) {
         Jam jam = (Jam) objectMatrix[finals.LAST_ROW_INDEX][i];
         if (visibleJellyfish.isCaughtRight(jam, right) || visibleJellyfish.isCaught(jam) || visibleJellyfish.isCaughtLeft(jam, left)) {
-//            score += jam.getSCORE();
-            player.setScore(player.getScore()+ jam.getSCORE());
+            player.setScore(player.getScore() + jam.getSCORE());
             removeDeath();
             return finals.placeIfScoreIsUP;
         }
@@ -216,7 +202,7 @@ public class GameManager {
     }
 
     public void removeDeath() {
-        if (deaths<=finals.LIVES && deaths > 0 && player.getScore() % finals.SCORE_TO_ADD_LIFE == 0) {
+        if (deaths <= finals.LIVES && deaths > 0 && player.getScore() % finals.SCORE_TO_ADD_LIFE == 0) {
             deaths--;
         }
 
@@ -248,5 +234,11 @@ public class GameManager {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void addUser(Player player) {
+        RecordList recordList = MySPv3.getInstance().loadFromSP();
+        recordList.addToTopTen(player);
+        MySPv3.getInstance().saveToSP(recordList);
     }
 }

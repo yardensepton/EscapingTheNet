@@ -1,6 +1,10 @@
-package com.example.escapingthenet;
+package com.example.escapingthenet.Model;
 
-public class Obstacle extends GameObjectClass{
+import com.example.escapingthenet.Finals;
+import com.example.escapingthenet.Model.GameObjectClass;
+import com.example.escapingthenet.Model.PlaceInMatrix;
+
+public class Obstacle extends GameObjectClass {
     private PlaceInMatrix place;
 
     public Obstacle() {

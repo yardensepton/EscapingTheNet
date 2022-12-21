@@ -1,6 +1,6 @@
-package com.example.escapingthenet;
+package com.example.escapingthenet.Model;
 
-public class Player {
+public class Player implements Comparable<Player> {
     private String name;
     private double latitude;
     private double longitude;
@@ -44,5 +44,21 @@ public class Player {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    @Override
+    public int compareTo(Player otherRecord) {//minus means the otherScore is smaller
+        int otherScore = ((Player)otherRecord).getScore();
+        return otherScore-this.getScore();
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", score=" + score +
+                '}';
     }
 }

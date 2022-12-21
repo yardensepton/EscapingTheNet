@@ -1,4 +1,6 @@
-package com.example.escapingthenet;
+package com.example.escapingthenet.Model;
+
+import com.example.escapingthenet.Finals;
 
 public abstract class GameObjectClass {
     public Finals finals = new Finals();

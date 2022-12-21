@@ -1,8 +1,10 @@
-package com.example.escapingthenet;
+package com.example.escapingthenet.Activities;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +12,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.escapingthenet.Finals;
+import com.example.escapingthenet.Model.GameManager;
+import com.example.escapingthenet.MovesDetector;
+import com.example.escapingthenet.MySignal;
+import com.example.escapingthenet.Model.PlaceInMatrix;
+import com.example.escapingthenet.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
 
@@ -20,15 +30,16 @@ import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+import im.delight.android.location.SimpleLocation;
+
+public class MainActivity extends AppCompatActivity{
+    public static SimpleLocation location;
     public static final String DIFFICULTY = "DIFFICULTY";
     public static final String USER_NAME = "NAME";
+    private static final String GAME_TIME = "GAME_TIME";
     public static final String BUTTONS = "BUTTONS";
     public static final String SENSORS = "SENSORS";
-    private static final String GAME_TIME = "GAME_TIME";
-    private static final String NUMBER_JAMS_COLLECTED = "NUMBER_JAMS_COLLECTED";
     private MovesDetector movesDetector;
-    private boolean isPermissionGranted;
     private ExtendedFloatingActionButton main_BTN_right;
     private ExtendedFloatingActionButton main_BTN_left;
     private ShapeableImageView[] game_IMG_hearts;
@@ -42,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
     private int seconds;
     private int minutes;
     int delay;
-    Intent previousIntent;
+    private Intent previousIntent;
     private MediaPlayer[] sounds;
-    MySPV2 mySPV2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +68,9 @@ public class MainActivity extends AppCompatActivity {
         initViews();
         movesDetector = new MovesDetector(this, callBack_moves);
         initButtonsOrSensors();
-        mySPV2 = new MySPV2(this);
-//        checkMyPermission();
-//        gameManager.setUserName(previousIntent.getExtras().getString(USER_NAME));
         gameManager.getPlayer().setName(previousIntent.getExtras().getString(USER_NAME));
+        location = new SimpleLocation(this);
+        requestLocationPermission(location);
     }
 
 
@@ -250,7 +260,6 @@ public class MainActivity extends AppCompatActivity {
     private void caughtHandler() {
         PlaceInMatrix placeWhereJellyfishCaught = gameManager.addScoreOrCollision(main_BTN_right.isPressed(), main_BTN_left.isPressed());
         if (placeWhereJellyfishCaught != null && placeWhereJellyfishCaught.equals(finals.placeIfScoreIsUP)) {
-//            main_TXT_score.setText("" + gameManager.getScore());
             main_TXT_score.setText("" + gameManager.getPlayer().getScore());
             sounds[0].start();
         } else if (placeWhereJellyfishCaught != null) {
@@ -294,58 +303,32 @@ public class MainActivity extends AppCompatActivity {
         return amount;
     }
 
-
-    private void saveToSharedP() {
-        mySPV2.putInt(NUMBER_JAMS_COLLECTED, gameManager.getPlayer().getScore());
-        mySPV2.putString(USER_NAME, gameManager.getPlayer().getName());
-        mySPV2.putString(GAME_TIME, setTime(minutes) + ":" + setTime(seconds));
-    }
-//
-//    private void checkMyPermission() {
-//        Dexter.withContext(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
-//            @Override
-//            public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-//                MySignal.getInstance().toast(finals.PERMISSION);
-//                isPermissionGranted = true;
-//            }
-//
-//            @Override
-//            public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-//                Intent intent = new Intent();
-//                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//                Uri uri = Uri.fromParts("package", getPackageName(), "");
-//                intent.setData(uri);
-//                startActivity(intent);
-//            }
-//
-//            @Override
-//            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-//                permissionToken.continuePermissionRequest();
-//            }
-//        }).check();
-//
-//    }
-
     private void openScorePage() {
         Intent intent = new Intent(this, ScoreActivity.class);
         intent.putExtra(ScoreActivity.KEY_SCORE, gameManager.getPlayer().getScore());
         intent.putExtra(ScoreActivity.KEY_MINUTES, minutes);
         intent.putExtra(ScoreActivity.KEY_SECONDS, seconds);
+
         intent.putExtra(ScoreActivity.KEY_NAME,gameManager.getPlayer().getName());
+        gameManager.addUser(gameManager.getPlayer());
         startActivity(intent);
-        saveToSharedP();
         finish();
     }
 
-    private String setTime(int time) {
-        String newTime;
-        if (time < 9) {
-            newTime = "0" + time;
+
+
+    private void requestLocationPermission(SimpleLocation location) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
         } else {
-            newTime = "" + time;
+            saveLocation(location);
         }
-        return newTime;
     }
 
+    private void saveLocation(SimpleLocation location) {
+        location.beginUpdates();
+        gameManager.getPlayer().setLatitude(location.getLatitude());
+        gameManager.getPlayer().setLongitude(location.getLongitude());
+    }
 
 }

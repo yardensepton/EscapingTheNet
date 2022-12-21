@@ -1,7 +1,9 @@
-package com.example.escapingthenet;
+package com.example.escapingthenet.Activities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.EditText;
@@ -10,14 +12,18 @@ import android.widget.ToggleButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckedTextView;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.escapingthenet.R;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.Objects;
 
-public class StartPageActivity extends AppCompatActivity {
+import im.delight.android.location.SimpleLocation;
 
+public class StartPageActivity extends AppCompatActivity {
     private AppCompatCheckedTextView start_TXT_hello;
     private MaterialButton start_BTN_play;
     private MaterialButton start_BTN_sensors;
@@ -26,6 +32,7 @@ public class StartPageActivity extends AppCompatActivity {
     private AppCompatImageView start_IMG_icon;
     private AppCompatImageView start_IMG_icon2;
     private ToggleButton start_TGL_difficulty;
+    private MaterialButton start_BTN_topTen;
 
 
     @Override
@@ -35,8 +42,8 @@ public class StartPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start_page);
 
         findViews();
-
         openGame();
+        openScorePage();
 
     }
 
@@ -50,6 +57,7 @@ public class StartPageActivity extends AppCompatActivity {
 
                 startActivity(intent);
                 finish();
+
 
             }
 
@@ -74,6 +82,15 @@ public class StartPageActivity extends AppCompatActivity {
     }
 
 
+    private void openScorePage() {
+        start_BTN_topTen.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ScoreActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+    }
+
     private boolean nameNotEmpty() {
         if (TextUtils.isEmpty(start_TXT_name.getText())) {
             start_TXT_name.setError("Name is required!");
@@ -88,10 +105,10 @@ public class StartPageActivity extends AppCompatActivity {
     }
 
 
-
     @SuppressLint("SetTextI18n")
     private void findViews() {
         start_TXT_hello = findViewById(R.id.start_TXT_hello);
+        start_BTN_topTen = findViewById(R.id.start_BTN_topTen);
         start_TXT_hello.setText("Escaping the net");
         start_TXT_name = findViewById(R.id.start_TXT_name);
         start_BTN_play = findViewById(R.id.start_BTN_play);
@@ -104,6 +121,9 @@ public class StartPageActivity extends AppCompatActivity {
         Glide.with(StartPageActivity.this).load(R.drawable.spongebob_running).into(start_IMG_icon2);
         start_TGL_difficulty = findViewById(R.id.start_TGL_difficulty);
     }
+
+
+
 
 
 }

@@ -55,7 +55,7 @@ public class MovesDetector {
 
 
     private void calculateMove(float x) {
-        if (System.currentTimeMillis() - timeStamp > 250) {
+        if (System.currentTimeMillis() - timeStamp > 200) {
             timeStamp = System.currentTimeMillis();
             if (x > 2.0) {
                 if (CallBack_moves != null) {
