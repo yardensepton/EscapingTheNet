@@ -1,4 +1,4 @@
-package com.example.escapingthenet;
+package com.example.escapingthenet.Model;
 
 public class PlaceInMatrix {
 

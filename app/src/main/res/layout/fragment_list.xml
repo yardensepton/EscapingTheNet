@@ -4,28 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScoreActivity"
-    android:background="#FFF000"
+    tools:context=".Activities.ScoreActivity"
+    android:background="#5F9EA0"
     >
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/list_LBL_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="100dp"
+    <ListView
+        android:id="@+id/score_LV_records"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
         android:fontFamily="@font/yellowpeach"
-        android:text="Fragment 1"
-        android:textColor="#000000"
-        android:textSize="40sp"
-        android:textStyle="bold" />
+        tools:listitem="@layout/list_item"
+        >
+
+    </ListView>
+
+
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/list_BTN_user1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/list_LBL_title"
-        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:textSize="24sp"
         android:layout_weight="1"
         android:text="User 1"/>

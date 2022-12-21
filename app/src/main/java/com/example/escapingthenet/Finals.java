@@ -1,5 +1,7 @@
 package com.example.escapingthenet;
 
+import com.example.escapingthenet.Model.PlaceInMatrix;
+
 import java.util.Random;
 
 public class Finals {
@@ -10,7 +12,9 @@ public class Finals {
     public enum gameObject {
         NET, JAM, JELLYFISH
     }
-
+    public enum direction {
+        LEFT, RIGHT
+    }
     public final int ROWS = 6;//size of the rows
     public final int COLS = 5;//size of the columns
     public final int FIRST_INDEX = 0;//first index of matrix

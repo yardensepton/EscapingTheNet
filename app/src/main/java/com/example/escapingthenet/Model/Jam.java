@@ -1,4 +1,6 @@
-package com.example.escapingthenet;
+package com.example.escapingthenet.Model;
+
+import com.example.escapingthenet.Finals;
 
 public class Jam extends Obstacle {
 

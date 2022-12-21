@@ -1,14 +1,22 @@
-package com.example.escapingthenet;
+package com.example.escapingthenet.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.escapingthenet.CallBack_UserProtocol;
+import com.example.escapingthenet.Model.ListAdapter;
+import com.example.escapingthenet.Model.MySPv3;
+import com.example.escapingthenet.Model.Player;
+import com.example.escapingthenet.Model.RecordList;
+import com.example.escapingthenet.MySignal;
+import com.example.escapingthenet.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -16,6 +24,8 @@ public class Fragment_List extends Fragment {
 
     private MaterialTextView list_LBL_title;
     private MaterialButton list_BTN_user1;
+    private ListView score_LV_records;
+    private ListAdapter listAdapter;
 
     private CallBack_UserProtocol callBack_userProtocol;
 
@@ -31,7 +41,14 @@ public class Fragment_List extends Fragment {
         findViews(view);
         initViews();
 
-        changeTitle("Top Ten Scores");
+        RecordList recordList = MySPv3.getInstance().loadFromSP();
+        listAdapter = new ListAdapter(getContext(),R.layout.list_item,recordList.getTopTenRecords());
+        score_LV_records.setAdapter(listAdapter);
+
+        score_LV_records.setOnItemClickListener((parent,view1,position,id)->{
+            Player player = (Player) parent.getItemAtPosition(position);
+            MySignal.getInstance().toast(player.toString());
+        });
 
         return view;
     }
@@ -58,7 +75,8 @@ public class Fragment_List extends Fragment {
     }
 
     private void findViews(View view) {
-        list_LBL_title = view.findViewById(R.id.list_LBL_title);
         list_BTN_user1 = view.findViewById(R.id.list_BTN_user1);
+        score_LV_records = view.findViewById(R.id.score_LV_records);
+
     }
 }
