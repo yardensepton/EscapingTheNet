@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Activities.ScoreActivity"
-    android:background="@drawable/gradient_color"
-    >
+    android:background="@drawable/gradient_color">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/score_LBL_time"
@@ -92,17 +92,22 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:padding="32dp" />
-        <Button
+        <com.google.android.material.button.MaterialButton
+            app:backgroundTint="@android:color/holo_blue_dark"
+            android:fontFamily="@font/roughfont"
             android:id="@+id/score_BTN_back"
             android:layout_width="wrap_content"
+            android:textSize="20sp"
             android:layout_height="wrap_content"
             android:text="BACK TO MENU"
             android:layout_gravity="center"
             android:background="@drawable/shape"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="15sp"
             >
 
-        </Button>
+        </com.google.android.material.button.MaterialButton>
+
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 

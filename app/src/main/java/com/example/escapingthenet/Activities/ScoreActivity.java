@@ -5,18 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.escapingthenet.CallBack_UserProtocol;
+import com.example.escapingthenet.Interfaces.CallBack_MapZoom;
 import com.example.escapingthenet.Fragments.Fragment_List;
 import com.example.escapingthenet.Fragments.MapFragment;
+import com.example.escapingthenet.Model.Player;
 import com.example.escapingthenet.R;
-import com.example.escapingthenet.Model.RecordList;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ScoreActivity extends AppCompatActivity {
@@ -30,14 +31,18 @@ public class ScoreActivity extends AppCompatActivity {
     private MaterialTextView score_LBL_time;
     private Fragment_List fragment_list;
     private MapFragment fragment_map;
-    private Button score_BTN_back;
-    private RecordList recordList;
+    private MaterialButton score_BTN_back;
 
 
-    CallBack_UserProtocol callBack_userProtocol = new CallBack_UserProtocol() {
+    CallBack_MapZoom callBack_userProtocol = new CallBack_MapZoom() {
         @Override
-        public void user(String user) {
-            showUserLocation(user);
+        public void zoomOnMap(double lat, double lon) {
+            showUserLocation(lat,lon);
+        }
+
+        @Override
+        public void markAllPlaces(ArrayList<Player>players) {
+            markAllUsersOnMap(players);
         }
 
     };
@@ -55,7 +60,7 @@ public class ScoreActivity extends AppCompatActivity {
         fragment_list = new Fragment_List();
         fragment_map = new MapFragment();
 
-        fragment_list.setCallBack_userProtocol(callBack_userProtocol);
+        fragment_list.setCallBack_map(callBack_userProtocol);
         getSupportFragmentManager().beginTransaction().add(R.id.panel_LAY_list, fragment_list).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.panel_LAY_map, fragment_map).commit();
         openStartPage();
@@ -122,27 +127,19 @@ public class ScoreActivity extends AppCompatActivity {
         if (seconds.isEmpty()) {
             return minutes + " later...";
         } else {
-            return minutes + " and " + seconds + " later...";
+            return minutes + " and" + seconds + " later...";
         }
     }
 
 
-    private void showUserLocation(String user) {
-        double lat = 30.99;
-        double lon = 32.67;
-//        fragment_map.zoom(lat, lon);
+    private void showUserLocation(double lat,double lon) {
+        fragment_map.zoom(lat, lon);
     }
 
-
-    private String setTimeSP(int time) {
-        String newTime;
-        if (time < 9) {
-            newTime = "0" + time;
-        } else {
-            newTime = "" + time;
-        }
-        return newTime;
+    private void markAllUsersOnMap(ArrayList<Player> players) {
+        fragment_map.addAllMarkers(players);
     }
+
 
     private void openStartPage() {
         score_BTN_back.setOnClickListener(v -> {
