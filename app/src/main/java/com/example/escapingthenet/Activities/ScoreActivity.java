@@ -12,6 +12,7 @@ import com.example.escapingthenet.Fragments.Fragment_List;
 import com.example.escapingthenet.Fragments.MapFragment;
 import com.example.escapingthenet.Model.MySPv3;
 import com.example.escapingthenet.Model.Player;
+import com.example.escapingthenet.MySignal;
 import com.example.escapingthenet.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
@@ -158,6 +159,7 @@ public class ScoreActivity extends AppCompatActivity {
     private void delete() {
         score_BTN_delete.setOnClickListener(v -> {
             MySPv3.getInstance().deleteSP();
+            MySignal.getInstance().toast("please load the page again");
         });
 
     }
