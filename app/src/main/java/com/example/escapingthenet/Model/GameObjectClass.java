@@ -33,11 +33,6 @@ public abstract class GameObjectClass {
         this.visibleStatus = visibleStatus;
     }
 
-    public Finals.gameObject getGameObjectName(){
-        return gameObjectName;
-    }
-
-
     public void setGameObjectName(Finals.gameObject gameObject){
         this.gameObjectName = gameObject;
     }

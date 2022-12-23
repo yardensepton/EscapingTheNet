@@ -55,6 +55,12 @@ public class MySPv3 {
 
     }
 
+    public void deleteSP(){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+    }
+
     public RecordList loadFromSP(){
         String importGson = getString(SP_KEY_RECORDS,"");
 

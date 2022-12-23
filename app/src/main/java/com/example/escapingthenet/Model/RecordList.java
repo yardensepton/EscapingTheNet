@@ -24,16 +24,14 @@ public class RecordList {
 
     public void addToTopTen(Player record) {
         topTenRecords.add(record);
-        if (!topTenRecords.isEmpty() || !(topTenRecords.size() < SIZE)) {
-            Collections.sort(topTenRecords);
-            ArrayList<Player> smallest = new ArrayList<>();
-            if (topTenRecords.size() > SIZE) {
-                for (int i = SIZE; i < topTenRecords.size(); i++) {
-                    smallest.add(topTenRecords.get(i));
-                }
-                topTenRecords.removeAll(smallest);
-
+        Collections.sort(topTenRecords);
+        ArrayList<Player> smallest = new ArrayList<>();
+        if (topTenRecords.size() > SIZE) {
+            for (int i = SIZE; i < topTenRecords.size(); i++) {
+                smallest.add(topTenRecords.get(i));
             }
+            topTenRecords.removeAll(smallest);
+
 
         }
     }

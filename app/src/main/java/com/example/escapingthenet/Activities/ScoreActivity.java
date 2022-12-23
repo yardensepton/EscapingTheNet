@@ -4,13 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.escapingthenet.Interfaces.CallBack_MapZoom;
 import com.example.escapingthenet.Fragments.Fragment_List;
 import com.example.escapingthenet.Fragments.MapFragment;
+import com.example.escapingthenet.Model.MySPv3;
 import com.example.escapingthenet.Model.Player;
 import com.example.escapingthenet.R;
 import com.google.android.material.button.MaterialButton;
@@ -32,6 +32,7 @@ public class ScoreActivity extends AppCompatActivity {
     private Fragment_List fragment_list;
     private MapFragment fragment_map;
     private MaterialButton score_BTN_back;
+    private MaterialButton score_BTN_delete;
 
 
     CallBack_MapZoom callBack_userProtocol = new CallBack_MapZoom() {
@@ -63,6 +64,7 @@ public class ScoreActivity extends AppCompatActivity {
         fragment_list.setCallBack_map(callBack_userProtocol);
         getSupportFragmentManager().beginTransaction().add(R.id.panel_LAY_list, fragment_list).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.panel_LAY_map, fragment_map).commit();
+        delete();
         openStartPage();
 
     }
@@ -105,6 +107,7 @@ public class ScoreActivity extends AppCompatActivity {
         score_LBL_score = findViewById(R.id.score_LBL_score);
         score_LBL_time = findViewById(R.id.score_LBL_time);
         score_BTN_back = findViewById(R.id.score_BTN_back);
+        score_BTN_delete = findViewById(R.id.score_BTN_delete);
     }
 
     private String setTime(int time, boolean sec) {
@@ -146,6 +149,15 @@ public class ScoreActivity extends AppCompatActivity {
             Intent intent = new Intent(this, StartPageActivity.class);
             startActivity(intent);
             finish();
+        });
+
+    }
+
+
+
+    private void delete() {
+        score_BTN_delete.setOnClickListener(v -> {
+            MySPv3.getInstance().deleteSP();
         });
 
     }

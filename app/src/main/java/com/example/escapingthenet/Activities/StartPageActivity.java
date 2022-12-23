@@ -1,9 +1,7 @@
 package com.example.escapingthenet.Activities;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.EditText;
@@ -12,16 +10,12 @@ import android.widget.ToggleButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckedTextView;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.escapingthenet.R;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.Objects;
-
-import im.delight.android.location.SimpleLocation;
 
 public class StartPageActivity extends AppCompatActivity {
     private AppCompatCheckedTextView start_TXT_hello;

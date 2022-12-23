@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity{
     public static SimpleLocation location;
     public static final String DIFFICULTY = "DIFFICULTY";
     public static final String USER_NAME = "NAME";
-    private static final String GAME_TIME = "GAME_TIME";
     public static final String BUTTONS = "BUTTONS";
     public static final String SENSORS = "SENSORS";
     private MovesDetector movesDetector;
@@ -117,7 +116,6 @@ public class MainActivity extends AppCompatActivity{
             loadAllImages();
         }
 
-        //do not change the order - caught then move
         caughtHandler();
         gameManager.moveDown();
 

@@ -137,7 +137,6 @@ public class GameManager {
             visibleJellyfish = jellyfishArrayList.get(currentCol - 1);
         }
         visibleJellyfish.setVisibleStatus(Finals.visibleStatus.VISIBLE);
-
     }
 
     public void moveObjectRight() {
@@ -147,6 +146,7 @@ public class GameManager {
             visibleJellyfish = jellyfishArrayList.get(currentCol + 1);
         }
         visibleJellyfish.setVisibleStatus(Finals.visibleStatus.VISIBLE);
+
     }
 
 
@@ -166,11 +166,9 @@ public class GameManager {
 
 
     public PlaceInMatrix addScoreOrCollision(boolean right, boolean left) {
-
         for (int i = 0; i < finals.COLS; i++) {
             if (objectMatrix[finals.LAST_ROW_INDEX][i] != null &&
                     objectMatrix[finals.LAST_ROW_INDEX][i].getVisibleStatus() == Finals.visibleStatus.VISIBLE) {
-
                 if (objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Net) {
                     return checkCollisionAndRemoveLife(i, right, left);
                 } else if (objectMatrix[finals.LAST_ROW_INDEX][i] instanceof Jam) {
@@ -208,11 +206,6 @@ public class GameManager {
 
     }
 
-    public int getLives() {
-        return lives;
-    }
-
-
     public int getDeaths() {
         return deaths;
     }
@@ -230,10 +223,6 @@ public class GameManager {
 
     public Player getPlayer() {
         return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
     }
 
     public void addUser(Player player) {

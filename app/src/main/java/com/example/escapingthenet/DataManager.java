@@ -16,13 +16,5 @@ public class DataManager {
         return jellyfishArrayList;
     }
 
-//    public static RecordList getRecordList() {
-//        RecordList recordList = new RecordList();
-//        Record record1 = new Record().setUserName("yarden").setLat(39.2).setLon(41.2).setScore(10);
-//        Record record2 = new Record().setUserName("lola").setLat(33.2).setLon(76.2).setScore(5);
-//        recordList.addToTopTen(record1);
-//        recordList.addToTopTen(record2);
-//        return recordList;
-//    }
 
 }
