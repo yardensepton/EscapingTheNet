@@ -2,7 +2,10 @@
 
 
 You're a jellyfish escaping from a net. 
+
 You have 3 lives, in order to gain lives after "net hits" you need to collect jelly. 
+
+
 There is a "top ten scores" page which also shows the location the game was played - you click on the score and the loaction is shown.
 
 
